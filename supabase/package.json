@@ -5,7 +5,8 @@
   "scripts": {
     "start": "supabase start",
     "stop": "supabase stop",
-    "reset": "supabase reset"
+    "reset": "supabase reset",
+    "genTypes": "supabase gen types typescript --local > ../frontend/src/database.types.ts && supabase gen types typescript --local > ../backend/src/database.types.ts"
   },
   "keywords": [],
   "author": "",

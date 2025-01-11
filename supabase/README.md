@@ -35,5 +35,12 @@ npm run stop
 npx supabase db diff -f <script_name>
 ```
 
+## Auto generate typescript types file in BE and FE folder:
+```bash
+npm run genTypes
+```
+- Run this script when there are new changes in database schema
+- Refer to [documentation](https://supabase.com/docs/guides/api/rest/generating-types) for more details
+
 ### Troubleshooting
 Reference for troubleshooting: [Documentation](https://supabase.com/docs/guides/deployment/managing-environments?queryGroups=environment&environment=production#troubleshooting)
