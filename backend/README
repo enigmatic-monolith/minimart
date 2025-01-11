@@ -1,0 +1,23 @@
+# Backend
+
+## Project Setup
+
+### Install Dependencies
+
+To install the necessary dependencies, run the following command:
+```bash
+npm install
+```
+
+### Running the Server
+
+To run the Express server in development mode, use the following command:
+```bash
+npm run dev
+```
+
+To run the Express server in production mode, use the following command:
+```bash
+npm run build
+npm start
+```
