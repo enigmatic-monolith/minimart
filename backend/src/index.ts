@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import { authenticateToken, AuthRequest } from "./middleware/authentication";
 import { authorizeRole } from "./middleware/authorization";
 import productRoutes from "./routes/productRoutes";
+import taskRoutes from "./routes/taskRoutes";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json()); 
 app.use(authenticateToken);
 
 app.get("/", (req: Request, res: Response) => {
@@ -16,6 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/product", productRoutes);
+app.use("/task", taskRoutes);
 
 // For testing purposes
 app.get("/user_info", (req: AuthRequest, res: Response) => {
