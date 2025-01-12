@@ -34,21 +34,39 @@ export type Database = {
   }
   public: {
     Tables: {
-      product: {
+      products: {
         Row: {
           desc: string | null
-          id: string
+          id: number
           name: string
         }
         Insert: {
           desc?: string | null
-          id: string
+          id?: number
           name: string
         }
         Update: {
           desc?: string | null
-          id?: string
+          id?: number
           name?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: number
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: number
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: number
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -57,10 +75,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      custom_access_token_hook: {
+        Args: {
+          event: Json
+        }
+        Returns: Json
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "resident"
     }
     CompositeTypes: {
       [_ in never]: never
