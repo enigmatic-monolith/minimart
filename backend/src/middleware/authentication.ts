@@ -6,6 +6,7 @@ dotenv.config();
 
 export interface AuthRequest extends Request {
   user?: any;
+  accessToken?: string;
 }
 
 export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
@@ -21,6 +22,7 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
     const secret = process.env.SUPABASE_JWT_SECRET as string;
     const decoded = jwt.verify(token, secret);
     req.user = decoded; // Attach user data to the request
+    req.accessToken = token;
     next();
   } catch (err) {
     res.status(403).json({ message: 'Invalid or expired token' });

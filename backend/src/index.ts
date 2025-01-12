@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import { authenticateToken, AuthRequest } from "./middleware/authentication";
 import { authorizeRole } from "./middleware/authorization";
+import productRoutes from "./routes/productRoutes";
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ app.use(authenticateToken);
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
+
+app.use("/product", productRoutes);
 
 // For testing purposes
 app.get("/user_info", (req: AuthRequest, res: Response) => {
