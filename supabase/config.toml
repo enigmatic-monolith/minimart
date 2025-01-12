@@ -30,6 +30,12 @@ shadow_port = 54320
 # server_version;` on the remote database to check.
 major_version = 15
 
+# Enable auth hooks
+# https://supabase.com/docs/guides/auth/auth-hooks#local-development
+[auth.hook.custom_access_token]
+enabled = true
+uri = "pg-functions://postgres/public/custom_access_token_hook"
+
 [db.pooler]
 enabled = false
 # Port to use for the local connection pooler.
