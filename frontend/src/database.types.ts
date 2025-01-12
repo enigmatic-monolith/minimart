@@ -52,6 +52,33 @@ export type Database = {
         }
         Relationships: []
       }
+      tasks: {
+        Row: {
+          created_at: string
+          desc: string | null
+          id: number
+          points: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          desc?: string | null
+          id?: number
+          points: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          desc?: string | null
+          id?: number
+          points?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: number
@@ -70,6 +97,38 @@ export type Database = {
         }
         Relationships: []
       }
+      user_tasks: {
+        Row: {
+          created_at: string
+          status: Database["public"]["Enums"]["task_status"]
+          task_id: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          status?: Database["public"]["Enums"]["task_status"]
+          task_id: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          status?: Database["public"]["Enums"]["task_status"]
+          task_id?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_tasks_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -84,6 +143,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "resident"
+      task_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
