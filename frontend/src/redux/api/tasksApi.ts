@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Tables, TablesInsert } from "../../database.types";
+import { Tables, TablesInsert, TablesUpdate } from "../../database.types";
 
 export type Task = Tables<"tasks">;
 export type TaskCreate = TablesInsert<"tasks">;
+export type TaskUpdate = TablesUpdate<"tasks">;
 const baseUrl = import.meta.env.VITE_API_BASE_URL as string;
 const taskRoute = "/task";
 
@@ -10,7 +11,7 @@ export const tasksApi = createApi({
   reducerPath: "tasksApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
-    prepareHeaders: (headers, { getState, type }) => {
+    prepareHeaders: (headers, { getState }) => {
       const token = (getState() as any).auth.accessToken;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -36,13 +37,12 @@ export const tasksApi = createApi({
       }),
       invalidatesTags: ["Task"],
     }),
-    updateTask: builder.mutation<Task, Task>({
-      query: (task) => {
-        const { id, ...other } = task;
+    updateTask: builder.mutation<Task, {id: number, task: Omit<TaskUpdate, 'id'>}>({
+      query: ({id, task}) => {
         return {
-          url: `${taskRoute}/${task.id}`,
+          url: `${taskRoute}/${id}`,
           method: "PUT",
-          body: other,
+          body: task,
         };
       },
       invalidatesTags: (result, error, { id }) => [{ type: "Task", id }, { type: "Task" }],

@@ -1,34 +1,31 @@
 import { useState } from "react";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import TaskDetailsModal, { TaskDetailsModalProps } from "./TaskDetailsModal";
-import { Task } from "../../../redux/api/tasksApi";
+import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
+import TaskDetailsModal, { TaskDetailsModalProps, ViewEditTaskProps } from "./TaskDetailsModal";
 
-export type TaskItemProps = Pick<
-  TaskDetailsModalProps,
-  "onCreate" | "onDelete" | "onUpdate"
-> & {
-  task: Task;
+export type TaskItemProps = {
+  viewEditTaskProps: ViewEditTaskProps
 };
 
 export const TaskItem = ({
-  task,
-  onCreate,
-  onUpdate,
-  onDelete,
+  viewEditTaskProps
 }: TaskItemProps) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const { task } = viewEditTaskProps;
 
   return (
     <>
       <Card sx={{ width: "100%" }}>
         <CardActionArea onClick={() => setModalOpen(true)}>
           <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h6" fontWeight="bold">
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              sx={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {task.title}
             </Typography>
             <Typography variant="subtitle2" color="primary" fontWeight="medium">
@@ -40,11 +37,8 @@ export const TaskItem = ({
       <TaskDetailsModal
         open={modalOpen}
         mode="view"
-        task={task}
-        onCreate={onCreate}
         onClose={() => setModalOpen(false)}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
+        viewEditTaskProps={viewEditTaskProps}
       />
     </>
   );

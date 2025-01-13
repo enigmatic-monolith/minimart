@@ -4,44 +4,60 @@ import {
   DialogContent,
   Button,
   DialogActions,
+  Typography,
 } from "@mui/material";
 import { Mode } from "./TaskDetailsModal";
-import { Task, TaskCreate } from "../../../redux/api/tasksApi";
+import { Task, TaskCreate, TaskUpdate } from "../../../redux/api/tasksApi";
+
+export type CreateTaskProps = {
+  onCreate: (task: TaskCreate) => void;
+  onClose: () => void;
+}
+
+export type EditTaskProps = {
+  task: Task,
+  onUpdate: ({id, task} : { id: number, task: TaskUpdate}) => void;
+  setMode: (mode: Mode) => void;
+}
 
 export type TaskDetailsFormProps = {
-  task: Task;
   mode: Mode;
-  setMode: (mode: Mode) => void;
-  onCreate: (task: TaskCreate) => void;
-  onUpdate: (task: Task) => void;
+  createTaskProps?: CreateTaskProps;
+  editTaskProps?: EditTaskProps;  
 };
 
 const TaskDetailsForm = ({
-  task,
   mode,
-  setMode,
-  onCreate,
-  onUpdate,
+  createTaskProps,
+  editTaskProps,
 }: TaskDetailsFormProps) => {
-  const [editedTask, setEditedTask] = useState(task);
+  const [editedTask, setEditedTask] = useState<TaskCreate>(editTaskProps ? editTaskProps.task : { title: '', points: 0});
 
   const handleUpdate = useCallback(() => {
-    onUpdate(editedTask);
-    setMode('view');
-  }, [editedTask, setMode, onUpdate]);
-
-  const handleCreate = useCallback(() => {
-    onCreate(editedTask);
-    setMode('view');
-  }, [editedTask, setMode, onCreate]);
+    if (!editTaskProps || !editedTask.id) return;
+    const { id, ...other } = editedTask;
+    editTaskProps.onUpdate({id, task: other});
+    editTaskProps.setMode('view');
+  }, [editedTask, editTaskProps]);
 
   const handleCancel = useCallback(() => {
-    setMode('view');
-  }, [setMode]);
+    if (!editTaskProps) return;
+    editTaskProps.setMode('view');
+  }, [editTaskProps]);
+
+  const handleCreate = useCallback(() => {
+    if (!createTaskProps) return;
+    createTaskProps.onCreate(editedTask);
+    createTaskProps.onClose();
+  }, [editedTask, createTaskProps]);
+
 
   return (
     <>
       <DialogContent>
+        <Typography variant="h6">
+          {mode === 'create' ? "Create New Task" : "Edit Task"}
+        </Typography>
         <TextField
           fullWidth
           value={editedTask.title}

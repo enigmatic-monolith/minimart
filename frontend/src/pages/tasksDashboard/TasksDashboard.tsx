@@ -1,4 +1,7 @@
-import { CircularProgress, Container } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import TaskList from "./components/TaskList";
 import {
   useCreateTaskMutation,
@@ -6,6 +9,7 @@ import {
   useUpdateTaskMutation,
 } from "../../redux/api/tasksApi";
 import { useMemo } from "react";
+import { TaskDashboardHeader } from "./components/TaskDashboardHeader";
 
 export const TasksDashboard = () => {
   const { data: tasks = [], isLoading } = useGetTasksQuery();
@@ -18,17 +22,31 @@ export const TasksDashboard = () => {
   const [updateTask] = useUpdateTaskMutation();
 
   return (
-    <Container>
-      {isLoading ? (
-        <CircularProgress size="4rem" />
-      ) : (
-        <TaskList
-          tasks={sortedTasks}
-          onDelete={() => ""}
-          onUpdate={updateTask}
-          onCreate={createTask}
-        />
-      )}
-    </Container>
+    <>
+      <Box
+        sx={{
+          backgroundColor: "#3E5879",
+          borderRadius: 2,
+          boxShadow: 3,
+          height: "80vh",
+          overflowY: "auto",
+        }}
+      >
+        <TaskDashboardHeader createTaskProps={{onCreate: createTask}}/>
+        <Box sx={{ padding: 4 }}>
+          {isLoading ? (
+            <CircularProgress size="4rem" />
+          ) : (
+            <TaskList
+              tasks={sortedTasks}
+              viewEditTaskProps={{
+                onUpdate: updateTask,
+                onDelete: () => ""
+              }}
+            />
+          )}
+        </Box>
+      </Box>
+    </>
   );
 };

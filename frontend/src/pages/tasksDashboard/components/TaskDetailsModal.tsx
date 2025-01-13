@@ -1,44 +1,56 @@
 import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 import TaskDetailsView, { TaskDetailsViewProps } from "./TaskDetailsView";
-import TaskDetailsForm, { TaskDetailsFormProps } from "./TaskDetailsForm";
-import { Task } from "../../../redux/api/tasksApi";
+import TaskDetailsForm, {
+  CreateTaskProps,
+  EditTaskProps,
+} from "./TaskDetailsForm";
 
 export type Mode = "create" | "edit" | "view";
 
+export type ViewEditTaskProps = Omit<
+  EditTaskProps & TaskDetailsViewProps,
+  "setMode" | "onClose"
+>;
+
 export type TaskDetailsModalProps = {
   open: boolean;
-  task: Task;
   mode: Mode;
-} & Omit<TaskDetailsFormProps, 'setMode'> & Omit<TaskDetailsViewProps, 'setMode'>;
+  onClose: () => void;
+  createTaskProps?: Omit<CreateTaskProps, "onClose">;
+  viewEditTaskProps?: ViewEditTaskProps;
+};
 
 const TaskDetailsModal = ({
   open,
-  task,
   mode,
   onClose,
-  onCreate,
-  onUpdate,
-  onDelete,
+  createTaskProps,
+  viewEditTaskProps,
 }: TaskDetailsModalProps) => {
-  const [currMode, setCurrentMode] = useState(mode);
+  const [currMode, setMode] = useState(mode);
 
   useEffect(() => {
-    setCurrentMode('view');
-  }, [open]);
+    setMode(mode);
+  }, [open, mode]);
 
   return (
     <Dialog open={open} onClose={onClose}>
-      {currMode === "view" ? (
-        <TaskDetailsView task={task} setMode={setCurrentMode} onDelete={onDelete} onClose={onClose}/>
-      ) : (
-        <TaskDetailsForm
-          task={task}
-          mode={currMode}
-          setMode={setCurrentMode}
-          onCreate={onCreate}
-          onUpdate={onUpdate}
+      {currMode === "view" && viewEditTaskProps && (
+        <TaskDetailsView
+          onClose={onClose}
+          setMode={setMode}
+          {...viewEditTaskProps}
         />
+      )}
+      {currMode === "edit" && viewEditTaskProps && (
+        <TaskDetailsForm
+          mode={currMode}
+          editTaskProps={{ ...viewEditTaskProps, setMode }}
+        />
+      )}
+      {currMode === "create" && createTaskProps && (
+        <TaskDetailsForm mode={currMode} createTaskProps={{ ...createTaskProps, onClose}} />
       )}
     </Dialog>
   );
