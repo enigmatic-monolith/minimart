@@ -28,12 +28,12 @@ const ResidentDashboard: React.FC = () => {
   useEffect(() => {
     // Fetch products from API using filters
     setProducts([
-      { id: 1, category: 'stationery', image_url: 'image1.jpg', title: 'Stationery 1', description: 'The product description goes here!', denomination: 'pcs', price_sgd: '5.2', approved_by: 'admin' },
-      { id: 2, category: 'paper products', image_url: 'image2.jpg', title: 'Paper Product 1', description: 'The product description goes here!', denomination: 'pcs', price_sgd: '3.66', approved_by: 'admin' },
-      { id: 3, category: 'toys', image_url: 'image3.jpg', title: 'Toys 1', description: 'The product description goes here!', denomination: 'pcs', price_sgd: '6', approved_by: 'admin' },
-      { id: 4, category: 'stationery', image_url: 'image4.jpg', title: 'Stationery 2', description: 'The product description goes here!', denomination: 'pcs', price_sgd: '5.2', approved_by: 'admin' },
-      { id: 5, category: 'paper products', image_url: 'image5.jpg', title: 'Paper Product 2', description: 'The product description goes here!', denomination: 'pcs', price_sgd: '3.66', approved_by: 'admin' },
-      { id: 6, category: 'toys', image_url: 'image6.jpg', title: 'Toys 2', description: 'The product description goes here!', denomination: 'pcs', price_sgd: '6', approved_by: 'admin' },
+      { id: 1, category: 'stationery', image_url: 'image1.jpg', title: 'Stationery 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 5, approved_by: 'admin' },
+      { id: 2, category: 'paper products', image_url: 'image2.jpg', title: 'Paper Product 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 3, approved_by: 'admin' },
+      { id: 3, category: 'toys', image_url: 'image3.jpg', title: 'Toys 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 6, approved_by: 'admin' },
+      { id: 4, category: 'stationery', image_url: 'image4.jpg', title: 'Stationery 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 5, approved_by: 'admin' },
+      { id: 5, category: 'paper products', image_url: 'image5.jpg', title: 'Paper Product 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 10, approved_by: 'admin' },
+      { id: 6, category: 'toys', image_url: 'image6.jpg', title: 'Toys 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 8, approved_by: 'admin' },
     
     ]);
   }, [filters]);
@@ -72,7 +72,7 @@ const ResidentDashboard: React.FC = () => {
                     title={product.title}
                     description={product.description}
                     denomination={product.denomination}
-                    price_sgd={product.price_sgd}
+                    pointsRequired={product.pointsRequired}
                     approved_by={product.approved_by}
                     image_url={product.image_url}
                 />

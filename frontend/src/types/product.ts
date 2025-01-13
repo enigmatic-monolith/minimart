@@ -5,7 +5,7 @@ export type Product = {
     title: string
     description: string | null
     denomination: string | null
-    price_sgd: string | null
+    pointsRequired: number | null
     approved_by: string | null
     image_url: string
   }

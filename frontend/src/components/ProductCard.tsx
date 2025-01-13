@@ -7,7 +7,7 @@ interface ProductCardProps {
     title: string
     description: string | null
     denomination: string | null
-    price_sgd: string | null
+    pointsRequired: number | null
     approved_by: string | null
     image_url: string
   }
@@ -18,7 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     title,
     description,
     denomination,
-    price_sgd,
+    pointsRequired,
     approved_by,
     image_url,
   }) => {
@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <p>{description}</p>
         </div>
         <div className='product-price'>
-          <p>${price_sgd} per {denomination}</p>
+          <p>{pointsRequired} VPoints per {denomination}</p>
         </div>
       </div>
       
