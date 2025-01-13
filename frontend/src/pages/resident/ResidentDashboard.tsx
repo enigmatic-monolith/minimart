@@ -8,6 +8,7 @@ import Grid2 from '@mui/material/Grid2';
 import './ResidentDashboard.css';
 
 import { Product } from '../../types/product';
+import { MinimartFilter } from '../../types/minimartFilter';
 
 const ResidentDashboard: React.FC = () => {
   const [username, setUsername] = useState('Resident Name'); // Placeholder
@@ -15,11 +16,11 @@ const ResidentDashboard: React.FC = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [products, setProducts] = useState<Product[]>([]); // Mock data to be fetched
-  
-  const [filters, setFilters] = useState({
+
+  const [filters, setFilters] = useState<MinimartFilter>({
     category: [],
     title: '',
-    pointsRequired: { min: undefined, max: undefined },
+    pointsRequired: { min: 0, max: 10000 },
   });
 
   // Responsive design handler

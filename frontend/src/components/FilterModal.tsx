@@ -29,16 +29,6 @@ const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) =
     setLocalFilters((prev) => ({ ...prev, title: event.target.value }));
   };
 
-  const handlePointsRequiredChange = (type: 'min' | 'max', value: string) => {
-    setLocalFilters((prev) => ({
-      ...prev,
-      pointsRequired: {
-        ...prev.pointsRequired,
-        [type]: value ? parseInt(value, 10) : undefined,
-      },
-    }));
-  };
-
   const handleMinChange = (value: number) => {
     if (value <= maxValue) {
       setMinValue(value);
