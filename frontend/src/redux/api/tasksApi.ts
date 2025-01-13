@@ -47,6 +47,24 @@ export const tasksApi = createApi({
       },
       invalidatesTags: (result, error, { id }) => [{ type: "Task", id }, { type: "Task" }],
     }),
+    archiveTask: builder.mutation<Task, number>({
+      query: (id) => {
+        return {
+          url: `${taskRoute}/${id}/archive`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: (result, error, id) => [{ type: "Task", id }, { type: "Task" }],
+    }),
+    restoreTask: builder.mutation<Task, number>({
+      query: (id) => {
+        return {
+          url: `${taskRoute}/${id}/restore`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: (result, error, id ) => [{ type: "Task", id }, { type: "Task" }],
+    }),
   }),
 });
 
@@ -55,4 +73,6 @@ export const {
   useGetTaskByIdQuery,
   useCreateTaskMutation,
   useUpdateTaskMutation,
+  useArchiveTaskMutation,
+  useRestoreTaskMutation,
 } = tasksApi;

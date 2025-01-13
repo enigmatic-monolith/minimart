@@ -1,36 +1,57 @@
 import { useState } from "react";
-import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
-import TaskDetailsModal, { TaskDetailsModalProps, ViewEditTaskProps } from "./TaskDetailsModal";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import TaskDetailsModal, {
+  ViewEditTaskProps,
+} from "./TaskDetailsModal";
 
 export type TaskItemProps = {
-  viewEditTaskProps: ViewEditTaskProps
+  viewEditTaskProps: ViewEditTaskProps;
 };
 
-export const TaskItem = ({
-  viewEditTaskProps
-}: TaskItemProps) => {
+export const TaskItem = ({ viewEditTaskProps }: TaskItemProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const { task } = viewEditTaskProps;
 
   return (
     <>
-      <Card sx={{ width: "100%" }}>
+      <Card sx={{ width: "100%", opacity: task.archived_at ? 0.7 : 1 }}>
         <CardActionArea onClick={() => setModalOpen(true)}>
-          <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              sx={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
+          <CardContent sx={{ display: "flex", flexDirection: "column", paddingY: 4 }}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              {task.title}
-            </Typography>
-            <Typography variant="subtitle2" color="primary" fontWeight="medium">
-              +{task.points} pts
-            </Typography>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {task.title}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="primary"
+                fontWeight="medium"
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                +{task.points} pts
+              </Typography>
+            </Box>
           </CardContent>
         </CardActionArea>
       </Card>

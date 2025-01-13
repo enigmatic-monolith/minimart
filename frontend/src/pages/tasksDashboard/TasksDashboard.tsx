@@ -4,8 +4,10 @@ import {
 } from "@mui/material";
 import TaskList from "./components/TaskList";
 import {
+  useArchiveTaskMutation,
   useCreateTaskMutation,
   useGetTasksQuery,
+  useRestoreTaskMutation,
   useUpdateTaskMutation,
 } from "../../redux/api/tasksApi";
 import { useMemo } from "react";
@@ -15,11 +17,18 @@ export const TasksDashboard = () => {
   const { data: tasks = [], isLoading } = useGetTasksQuery();
 
   const sortedTasks = useMemo(() => {
-    return tasks.slice().sort((a, b) => b.id - a.id);
+    return tasks.slice().sort((a, b) => {
+      if (!a.archived_at === !b.archived_at) {
+        return b.id - a.id;
+      }
+      return a.archived_at ? 1 : -1;
+    });
   }, [tasks]);
 
   const [createTask] = useCreateTaskMutation();
   const [updateTask] = useUpdateTaskMutation();
+  const [archiveTask] = useArchiveTaskMutation();
+  const [restoreTask] = useRestoreTaskMutation();
 
   return (
     <>
@@ -41,7 +50,8 @@ export const TasksDashboard = () => {
               tasks={sortedTasks}
               viewEditTaskProps={{
                 onUpdate: updateTask,
-                onDelete: () => ""
+                onArchive: archiveTask,
+                onRestore: restoreTask,
               }}
             />
           )}

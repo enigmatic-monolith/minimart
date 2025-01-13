@@ -79,3 +79,39 @@ export const updateTask = async (req: AuthRequest, res: Response) => {
 
     res.status(200).json(data);
 };
+
+export const archiveTask = async (req: AuthRequest, res: Response) => {
+    const { id } = req.params;
+
+    const supabase = supabaseClient(req.accessToken ?? '');
+
+    const { data, error } = await supabase
+        .from('tasks')
+        .update({ archived_at: new Date().toISOString() })
+        .eq('id', id);
+
+    if (error) {
+        res.status(500).json({ error: error.message });
+        return;
+    }
+
+    res.status(200).json(data);
+};
+
+export const restoreTask = async (req: AuthRequest, res: Response) => {
+    const { id } = req.params;
+
+    const supabase = supabaseClient(req.accessToken ?? '');
+
+    const { data, error } = await supabase
+        .from('tasks')
+        .update({ archived_at: null })
+        .eq('id', id);
+
+    if (error) {
+        res.status(500).json({ error: error.message });
+        return;
+    }
+
+    res.status(200).json(data);
+};
