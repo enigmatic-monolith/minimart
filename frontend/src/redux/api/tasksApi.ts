@@ -1,46 +1,51 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Tables } from '../../database.types';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Tables, TablesInsert } from "../../database.types";
 
-type Task = Tables<'tasks'>;
-const baseUrl = import.meta.env.API_BASE_URL as string;
+export type Task = Tables<"tasks">;
+export type TaskCreate = TablesInsert<"tasks">;
+const baseUrl = import.meta.env.VITE_API_BASE_URL as string;
+const taskRoute = "/task";
 
 export const tasksApi = createApi({
-  reducerPath: 'tasksApi',
+  reducerPath: "tasksApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState, type }) => {
       const token = (getState() as any).auth.accessToken;
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  tagTypes: ['Tasks'],
+  tagTypes: ["Task"],
   endpoints: (builder) => ({
     getTasks: builder.query<Task[], void>({
-      query: () => '/tasks',
-      providesTags: ['Tasks'],
+      query: () => taskRoute,
+      providesTags: ["Task"]
     }),
     getTaskById: builder.query<Task, number>({
-      query: (id) => `/tasks/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Tasks', id }],
+      query: (id) => `${taskRoute}/${id}`,
+      providesTags: (result, error, id) => [{ type: "Task", id }],
     }),
-    createTask: builder.mutation<Task, Partial<Task>>({
+    createTask: builder.mutation<Task, TaskCreate>({
       query: (task) => ({
-        url: '/tasks',
-        method: 'POST',
+        url: taskRoute,
+        method: "POST",
         body: task,
       }),
-      invalidatesTags: ['Tasks'],
+      invalidatesTags: ["Task"],
     }),
-    updateTask: builder.mutation<Task, { id: number; task: Partial<Task> }>({
-      query: ({ id, task }) => ({
-        url: `/tasks/${id}`,
-        method: 'PUT',
-        body: task,
-      }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Tasks', id }],
+    updateTask: builder.mutation<Task, Task>({
+      query: (task) => {
+        const { id, ...other } = task;
+        return {
+          url: `${taskRoute}/${task.id}`,
+          method: "PUT",
+          body: other,
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [{ type: "Task", id }, { type: "Task" }],
     }),
   }),
 });
