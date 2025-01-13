@@ -10,7 +10,7 @@ interface ProductCardProps {
     pointsRequired: number | null
     approved_by: string | null
     image_url: string
-  }
+}
 
 const ProductCard: React.FC<ProductCardProps> = ({
     id,

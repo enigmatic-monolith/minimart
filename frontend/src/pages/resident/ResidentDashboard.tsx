@@ -15,7 +15,12 @@ const ResidentDashboard: React.FC = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [products, setProducts] = useState<Product[]>([]); // Mock data to be fetched
-  const [filters, setFilters] = useState({});  // Filter options state
+  
+  const [filters, setFilters] = useState({
+    category: [],
+    title: '',
+    pointsRequired: { min: undefined, max: undefined },
+  });
 
   // Responsive design handler
   useEffect(() => {
@@ -57,11 +62,9 @@ const ResidentDashboard: React.FC = () => {
 
       {/* Main Content */}
       <div className='mainContent'>
-        {isLargeScreen && (
-          <aside className='filters'>
-            <button onClick={() => setShowFilterModal(true)}>Filter Options</button>
-          </aside>
-        )}
+        <aside className='filters'>
+          <button onClick={() => setShowFilterModal(true)}>Filter Options</button>
+        </aside>
 
         <Grid2 className='products' container direction='row' spacing={1}>
           {products.map((product) => (
@@ -82,7 +85,7 @@ const ResidentDashboard: React.FC = () => {
       </div>
 
       {/* Filter Modal for Small Screens */}
-      {!isLargeScreen && showFilterModal && (
+      {showFilterModal && (
         <FilterModal
           filters={filters}
           onClose={() => setShowFilterModal(false)}
