@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import { TasksDashboard } from '../pages/TasksDashboard';
+import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
 import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
 
