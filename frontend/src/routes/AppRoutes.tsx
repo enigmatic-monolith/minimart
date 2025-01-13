@@ -14,6 +14,7 @@ const getUserRole = (): string => {
 
 const AppRoutes = () => {
   const userRole = getUserRole();
+  console.log("User Role: ", userRole);
 
   return (
     <Routes>
@@ -45,7 +46,7 @@ const AppRoutes = () => {
       />
 
       {/* Catch-All Redirect */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };

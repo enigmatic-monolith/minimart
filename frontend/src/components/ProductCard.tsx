@@ -1,34 +1,68 @@
 import React from 'react';
-// import styles from './ProductCard.css';
+import './ProductCard.css';
 
-type ProductCardProps = {
-  product: {
-    id: number;
-    image: string;
-    title: string;
-  };
-};
+interface ProductCardProps {
+    id: number
+    category: string
+    title: string
+    description: string | null
+    denomination: string | null
+    price_sgd: string | null
+    approved_by: string | null
+    image_url: string
+  }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [quantity, setQuantity] = React.useState(1);
+const ProductCard: React.FC<ProductCardProps> = ({
+    id,
+    category,
+    title,
+    description,
+    denomination,
+    price_sgd,
+    approved_by,
+    image_url,
+  }) => {
+  const [quantity, setQuantity] = React.useState(0);
 
   const handleAddToCart = () => {
-    console.log(`Added ${quantity} of ${product.title} to cart`);
+    console.log(`Added ${quantity} of ${title} to cart`);
   };
 
   return (
-    <div className='card'>
-      <img src={product.image} alt={product.title} className='image' />
-      <h3>{product.title}</h3>
+    <div className='product-card'>
+      <div className='product-details'>
+        <img src={image_url} alt={title} className='product-image' />
+        <div className='product-title'>{title}</div>
+        <div className='product-description'>
+          <p>Category: {category}</p>
+          <p>{description}</p>
+        </div>
+        <div className='product-price'>
+          <p>${price_sgd} per {denomination}</p>
+        </div>
+      </div>
+      
       <div className='actions'>
-        <input
-          type="number"
-          value={quantity}
-          min="1"
-          onChange={(e) => setQuantity(Number(e.target.value))}
-          className='quantity'
-        />
-        <button onClick={handleAddToCart}>Add to Cart</button>
+        <div className="quantity-controls">
+          <button
+            className="quantity-decrement"
+            onClick={() => setQuantity((prev) => Math.max(prev - 1, 0))}
+          >
+            <p className="minus-icon">-</p>
+          </button>
+          <span className="quantity-display">{quantity}</span>
+          <button
+            className="quantity-increment"
+            onClick={() => setQuantity((prev) => Math.min(prev + 1, 9999))}
+          >
+            <p className="plus-icon">+</p>
+          </button>
+        </div>
+
+        <button className='add-to-cart-button' onClick={handleAddToCart} disabled={quantity === 0}>
+          {/* Check Bootstrap Icon issue */}
+          <i className="bi bi-cart-plus" />Add to Cart 
+        </button>
       </div>
     </div>
   );
