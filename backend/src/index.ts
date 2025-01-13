@@ -4,12 +4,17 @@ import { authenticateToken, AuthRequest } from "./middleware/authentication";
 import { authorizeRole } from "./middleware/authorization";
 import productRoutes from "./routes/productRoutes";
 import taskRoutes from "./routes/taskRoutes";
+import cors from "cors";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: process.env.ORIGIN as string,
+  optionsSuccessStatus: 200,
+}))
 app.use(express.json()); 
 app.use(authenticateToken);
 
