@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Chip,
@@ -8,10 +9,10 @@ import {
 } from "@mui/material";
 import { Mode } from "./TaskDetailsModal";
 import { useCallback } from "react";
-import { Task } from "../../../redux/api/tasksApi";
+import { TaskWithSubmissions } from "../../../redux/api/tasksApi";
 
 export type TaskDetailsViewProps = {
-  task: Task;
+  task: TaskWithSubmissions;
   setMode: (mode: Mode) => void;
   onArchive: (id: number) => void;
   onRestore: (id: number) => void;
@@ -72,6 +73,14 @@ const TaskDetailsView = ({
         </Typography>
       </DialogContent>
       <DialogActions>
+        <Badge
+          badgeContent={task.pending_count}
+          color="error"
+        >
+          <Button onClick={() => setMode("submissions")} color="primary" variant="outlined">
+            View Submissions
+          </Button>
+        </Badge>
         <Button onClick={() => setMode("edit")} color="primary">
           Edit
         </Button>

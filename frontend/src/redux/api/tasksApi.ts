@@ -4,6 +4,9 @@ import { Tables, TablesInsert, TablesUpdate } from "../../database.types";
 export type Task = Tables<"tasks">;
 export type TaskCreate = TablesInsert<"tasks">;
 export type TaskUpdate = TablesUpdate<"tasks">;
+export type UserTask = Tables<"user_tasks">;
+export type TaskWithSubmissions = Task & { user_tasks: UserTask[], pending_count: number };
+export type GetAllTasksResponse = TaskWithSubmissions[];
 const baseUrl = import.meta.env.VITE_API_BASE_URL as string;
 const taskRoute = "/task";
 
@@ -21,9 +24,9 @@ export const tasksApi = createApi({
   }),
   tagTypes: ["Task"],
   endpoints: (builder) => ({
-    getTasks: builder.query<Task[], void>({
+    getTasks: builder.query<GetAllTasksResponse, void>({
       query: () => taskRoute,
-      providesTags: ["Task"]
+      providesTags: ["Task"],
     }),
     getTaskById: builder.query<Task, number>({
       query: (id) => `${taskRoute}/${id}`,
@@ -37,15 +40,21 @@ export const tasksApi = createApi({
       }),
       invalidatesTags: ["Task"],
     }),
-    updateTask: builder.mutation<Task, {id: number, task: Omit<TaskUpdate, 'id'>}>({
-      query: ({id, task}) => {
+    updateTask: builder.mutation<
+      Task,
+      { id: number; task: Omit<TaskUpdate, "id"> }
+    >({
+      query: ({ id, task }) => {
         return {
           url: `${taskRoute}/${id}`,
           method: "PUT",
           body: task,
         };
       },
-      invalidatesTags: (result, error, { id }) => [{ type: "Task", id }, { type: "Task" }],
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Task", id },
+        { type: "Task" },
+      ],
     }),
     archiveTask: builder.mutation<Task, number>({
       query: (id) => {
@@ -54,7 +63,10 @@ export const tasksApi = createApi({
           method: "PUT",
         };
       },
-      invalidatesTags: (result, error, id) => [{ type: "Task", id }, { type: "Task" }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Task", id },
+        { type: "Task" },
+      ],
     }),
     restoreTask: builder.mutation<Task, number>({
       query: (id) => {
@@ -63,7 +75,34 @@ export const tasksApi = createApi({
           method: "PUT",
         };
       },
-      invalidatesTags: (result, error, id ) => [{ type: "Task", id }, { type: "Task" }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Task", id },
+        { type: "Task" },
+      ],
+    }),
+    approveUserTask: builder.mutation<Task, {userId: string; taskId: number}>({
+      query: ({userId, taskId}) => {
+        return {
+          url: `${taskRoute}/${userId}/${taskId}/approve`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: (result, error, {userId, taskId}) => [
+        { type: "Task", id: taskId },
+        { type: "Task" },
+      ],
+    }),
+    rejectUserTask: builder.mutation<Task, {userId: string; taskId: number}>({
+      query: ({userId, taskId}) => {
+        return {
+          url: `${taskRoute}/${userId}/${taskId}/reject`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: (result, error, {userId, taskId}) => [
+        { type: "Task", id: taskId },
+        { type: "Task" },
+      ],
     }),
   }),
 });
@@ -75,4 +114,6 @@ export const {
   useUpdateTaskMutation,
   useArchiveTaskMutation,
   useRestoreTaskMutation,
+  useApproveUserTaskMutation,
+  useRejectUserTaskMutation
 } = tasksApi;

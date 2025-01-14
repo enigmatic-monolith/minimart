@@ -4,9 +4,11 @@ import {
 } from "@mui/material";
 import TaskList from "./components/TaskList";
 import {
+  useApproveUserTaskMutation,
   useArchiveTaskMutation,
   useCreateTaskMutation,
   useGetTasksQuery,
+  useRejectUserTaskMutation,
   useRestoreTaskMutation,
   useUpdateTaskMutation,
 } from "../../redux/api/tasksApi";
@@ -29,6 +31,8 @@ export const TasksDashboard = () => {
   const [updateTask] = useUpdateTaskMutation();
   const [archiveTask] = useArchiveTaskMutation();
   const [restoreTask] = useRestoreTaskMutation();
+  const [rejectUserTask] = useRejectUserTaskMutation();
+  const [approveUserTask] = useApproveUserTaskMutation();
 
   return (
     <>
@@ -52,6 +56,8 @@ export const TasksDashboard = () => {
                 onUpdate: updateTask,
                 onArchive: archiveTask,
                 onRestore: restoreTask,
+                onApprove: approveUserTask,
+                onReject: rejectUserTask,
               }}
             />
           )}

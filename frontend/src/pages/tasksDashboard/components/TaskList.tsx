@@ -1,10 +1,10 @@
 import { Grid2 } from '@mui/material';
 import { TaskItem } from './TaskItem';
-import { Task } from '../../../redux/api/tasksApi';
+import { TaskWithSubmissions } from '../../../redux/api/tasksApi';
 import { ViewEditTaskProps } from './TaskDetailsModal';
 
 type TaskListProps = {
-  tasks: Task[];
+  tasks: TaskWithSubmissions[];
   viewEditTaskProps: Omit<ViewEditTaskProps, 'task'>;
 }
 

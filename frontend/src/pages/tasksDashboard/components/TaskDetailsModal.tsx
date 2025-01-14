@@ -5,11 +5,12 @@ import TaskDetailsForm, {
   CreateTaskProps,
   EditTaskProps,
 } from "./TaskDetailsForm";
+import { SubmissionList, SubmissionListProps } from "./SubmissionList";
 
-export type Mode = "create" | "edit" | "view";
+export type Mode = "create" | "edit" | "view" | "submissions";
 
 export type ViewEditTaskProps = Omit<
-  EditTaskProps & TaskDetailsViewProps,
+  EditTaskProps & TaskDetailsViewProps & SubmissionListProps,
   "setMode" | "onClose"
 >;
 
@@ -48,6 +49,9 @@ const TaskDetailsModal = ({
           mode={currMode}
           editTaskProps={{ ...viewEditTaskProps, setMode }}
         />
+      )}
+      {currMode === "submissions" && viewEditTaskProps && (
+        <SubmissionList setMode={setMode} {...viewEditTaskProps} />
       )}
       {currMode === "create" && createTaskProps && (
         <TaskDetailsForm mode={currMode} createTaskProps={{ ...createTaskProps, onClose}} />
