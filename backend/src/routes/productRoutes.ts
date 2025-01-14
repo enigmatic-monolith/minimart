@@ -1,8 +1,11 @@
 import express from 'express';
-import { getAllProducts } from '../controller/productController';
+import { createProduct, getAllProducts } from '../controller/productController';
+import { upload } from '../services/multer';
 
 const router = express.Router();
 
 router.get('/', getAllProducts);
+
+router.post('/', upload.single('file'), createProduct);
 
 export default router;
