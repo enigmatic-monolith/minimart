@@ -10,14 +10,15 @@ import { Product } from "../../../redux/api/productApi";
 
 export type ProductCardProps = {
   product: Product;
+  onClick: () => void;
 };
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({ product, onClick }: ProductCardProps) => {
   const defaultImage = "images/default_image.jpg";
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card>
+      <CardActionArea onClick={onClick}>
         <CardMedia
           component="img"
           height="140"
