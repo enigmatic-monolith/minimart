@@ -4,6 +4,7 @@ import { authenticateToken, AuthRequest } from "./middleware/authentication";
 import { authorizeRole } from "./middleware/authorization";
 import productRoutes from "./routes/productRoutes";
 import taskRoutes from "./routes/taskRoutes";
+import userManagementRoutes from "./routes/userManagementRoutes";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/product", productRoutes);
 app.use("/task", taskRoutes);
+app.use("/users", userManagementRoutes);
 
 // For testing purposes
 app.get("/user_info", (req: AuthRequest, res: Response) => {
