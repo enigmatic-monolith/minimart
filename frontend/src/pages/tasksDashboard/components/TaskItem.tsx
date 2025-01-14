@@ -1,50 +1,37 @@
 import { useState } from "react";
 import {
+  Badge,
+  Box,
   Card,
   CardActionArea,
   CardContent,
   Typography,
 } from "@mui/material";
-import TaskDetailsModal, { TaskDetailsModalProps } from "./TaskDetailsModal";
-import { Task } from "../../../redux/api/tasksApi";
+import TaskDetailsModal, { ViewEditTaskProps } from "./TaskDetailsModal";
+import { TaskCard } from "./TaskCard";
 
-export type TaskItemProps = Pick<
-  TaskDetailsModalProps,
-  "onCreate" | "onDelete" | "onUpdate"
-> & {
-  task: Task;
+export type TaskItemProps = {
+  viewEditTaskProps: ViewEditTaskProps;
 };
 
-export const TaskItem = ({
-  task,
-  onCreate,
-  onUpdate,
-  onDelete,
-}: TaskItemProps) => {
+export const TaskItem = ({ viewEditTaskProps }: TaskItemProps) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const { task } = viewEditTaskProps;
 
   return (
     <>
-      <Card sx={{ width: "100%" }}>
-        <CardActionArea onClick={() => setModalOpen(true)}>
-          <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h6" fontWeight="bold">
-              {task.title}
-            </Typography>
-            <Typography variant="subtitle2" color="primary" fontWeight="medium">
-              +{task.points} pts
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Badge
+        badgeContent={task.pending_count}
+        color="error"
+        sx={{ width: "100%"}}
+      >
+        <TaskCard task={task} onClick={() => setModalOpen(true)} />
+      </Badge>
       <TaskDetailsModal
         open={modalOpen}
         mode="view"
-        task={task}
-        onCreate={onCreate}
         onClose={() => setModalOpen(false)}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
+        viewEditTaskProps={viewEditTaskProps}
       />
     </>
   );

@@ -56,6 +56,25 @@ VALUES
         '',
         '',
         ''
+    ),
+    (
+        '00000000-0000-0000-0000-000000000000',
+        '3a6b6a62-cfd9-4587-a871-96760e9a976f',
+        'authenticated',
+        'authenticated',
+        'resident2@example.com',
+        crypt('password', gen_salt('bf')),
+        current_timestamp,
+        current_timestamp,
+        current_timestamp,
+        '{"provider":"email","providers":["email"]}',
+        '{}',
+        current_timestamp,
+        current_timestamp,
+        '',
+        '',
+        '',
+        ''
     );
 
 INSERT INTO
@@ -86,5 +105,6 @@ INSERT INTO
 INSERT INTO public.user_roles (user_id, role)
 VALUES
   ('d247f785-882d-4cef-baff-5457e9a6a359', 'admin'),
-  ('5ae1fa78-ae05-4817-a87c-c1d85cbb00d5', 'resident');
+  ('5ae1fa78-ae05-4817-a87c-c1d85cbb00d5', 'resident'),
+  ('3a6b6a62-cfd9-4587-a871-96760e9a976f', 'resident');
 
