@@ -3,7 +3,7 @@ import { AuthRequest } from "../middleware/authentication";
 import { supabaseAuthClient, supabaseClient } from "../services/supabaseClient";
 import { plainToInstance } from 'class-transformer';
 import nodemailer from 'nodemailer';
-import { UserInfo } from "../validator/userManagementValidator";
+import { SetPasswordInfo, UserInfo } from "../validator/userManagementValidator";
 import { validate } from "class-validator";
 
 export const getAllUsers = async (req: AuthRequest, res: Response) => {
@@ -139,4 +139,61 @@ export const resetPassword = async (req: AuthRequest, res: Response) => {
             console.log(info);
     });
     res.status(201).json({ success: true })
+};
+
+export const setPassword = async (req: AuthRequest, res: Response) => {
+    const info = plainToInstance(SetPasswordInfo, [req.body])[0];
+    const errors = await validate(info);
+    if (errors.length > 0) {
+        res.status(400).json(errors);
+        return;
+    }
+
+    const supabase = supabaseClient(process.env.SUPABASE_SERVICE_ROLE_KEY as string);
+
+    const { data, error } = await supabase
+        .from('reset_password_tokens')
+        .select('*')
+        .eq('user_id', info.id);
+    if (error) {
+        res.status(400).json(error);
+        return;
+    }
+    if (!data || data.length === 0) {
+        res.status(400).json({ error: "Invalid user id" });
+        return;
+    }
+
+    // 5 minutes
+    const validityDuration = 5 * 60 * 1000;
+
+    const encodedToken = new TextEncoder().encode(info.token);
+    const hash = await crypto.subtle.digest('SHA-256', encodedToken);
+    const hashArray = Array.from(new Uint8Array(hash));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    let isVerified = false;
+    for (const item of data) {
+        if (item.token === hashHex) {
+            isVerified = new Date().getTime() < new Date(item.created_at).getTime() + validityDuration;
+            break;
+        }
+    }
+    if (!isVerified) {
+        res.status(400).json({ error: "Invalid token" });
+        return;
+    }
+
+    const { data: user, error: updateError } = await supabase.auth.admin.updateUserById(
+        info.id,
+        { password: info.newPassword },
+    );
+
+    await supabase.from('reset_password_tokens').delete().eq('user_id', info.id);
+
+    if (updateError) {
+        res.status(400).json(updateError);
+        return;
+    }
+
+    res.status(200).json(user);
 };
