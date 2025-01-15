@@ -45,7 +45,11 @@ const CartPage: React.FC = () => {
                     
                 style={{ width: '60px', marginLeft: '10px' }}
             />
-            <Button onClick={() => {
+            <Button 
+              style={{
+                color: 'red',
+              }}
+              onClick={() => {
                 removeFromCart(item.id); 
                 handleApplyDiscount();
                 }}>Remove</Button>
