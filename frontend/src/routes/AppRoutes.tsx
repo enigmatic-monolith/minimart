@@ -2,15 +2,20 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import ProtectedRoute from './ProtectedRoute';
-import { TasksDashboard } from '../pages/admin/TasksDashboard';
-import { LoginPage } from '../pages/LoginPage';
-import { HomePage } from '../pages/resident/HomePage';
+import { HomePage } from '../pages/HomePage';
 import ResidentDashboard from '../pages/resident/ResidentDashboard';
 
 const getUserRole = (): string => {
   const role = useSelector((state: RootState) => state.auth.role);
   return role || 'guest';
 }
+
+import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
+import { LoginPage } from '../pages/LoginPage';
+import { HomePage } from '../pages/HomePage';
+import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
+import { UserManagementPage } from '../pages/userManagement/UserManagement';
+import { SetPassword } from '../pages/setPassword/SetPassword';
 
 const AppRoutes = () => {
   const userRole = getUserRole();
@@ -20,6 +25,7 @@ const AppRoutes = () => {
     <Routes>
       {/* Public Route */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/set-password" element={<SetPassword />} />
 
       {/* Protected Routes. Role-Based Redirect for Root */}
       <Route
@@ -41,6 +47,22 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin', 'resident']}>
             <TasksDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/inventory"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <InventoryDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <UserManagementPage />
           </ProtectedRoute>
         }
       />
