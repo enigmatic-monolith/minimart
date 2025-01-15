@@ -70,12 +70,7 @@ const ResidentDashboard: React.FC = () => {
         </div>
       </header>
 
-      {/* Navigation Bar */}
-      {isLargeScreen ? (
-        <Navbar position="top" active='dashboard'/>
-      ) : (
-        <Navbar position="bottom" active="dashboard" />
-      )}
+      <Navbar position="top" active='dashboard'/>
 
       {/* Main Content */}
       <div className='mainContent'>

@@ -24,6 +24,17 @@
 .filters {
     width: 20%;
     padding: 1rem;
+
+    button {
+        color: white;
+        font-weight: bold;
+        background-color: darkslategray;
+        border-color: white;
+    }
+
+    button:hover {
+        filter: brightness(130%);
+    }
 }
   
 .products {
