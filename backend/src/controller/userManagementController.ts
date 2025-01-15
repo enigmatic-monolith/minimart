@@ -141,11 +141,16 @@ export const resetPassword = async (req: AuthRequest, res: Response) => {
             },
         secure: true,
     });
+    const link = `${process.env.ORIGIN}/set-password?id=${userInfo.id}&token=${token}`;
     const mailData = {
         from: 'admin@minimart.nknguyenhc.net',
         to: email,
-        subject: 'Testing email with nodejs',
-        html: `Hello! Quack quack ${token}`,
+        subject: 'Minimart - Reset Password',
+        html: `
+            <p>Hi there!</p>
+            <p>You requested to reset your password. Please click on the following link to reset your password:</p>
+            <a href="${link}">${link}</a>
+        `,
     };
     transporter.sendMail(mailData, function (err, info) {
         if (err)
@@ -175,7 +180,7 @@ export const setPassword = async (req: AuthRequest, res: Response) => {
         return;
     }
     if (!data || data.length === 0) {
-        res.status(400).json({ error: "Invalid user id" });
+        res.status(400).json({ error: "Invalid token" });
         return;
     }
 
@@ -203,12 +208,11 @@ export const setPassword = async (req: AuthRequest, res: Response) => {
         { password: info.newPassword },
     );
 
-    await supabase.from('reset_password_tokens').delete().eq('user_id', info.id);
-
     if (updateError) {
         res.status(400).json(updateError);
         return;
     }
 
+    await supabase.from('reset_password_tokens').delete().eq('user_id', info.id);
     res.status(200).json(user);
 };

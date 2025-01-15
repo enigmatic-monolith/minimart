@@ -5,12 +5,14 @@ import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
 import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
 import { UserManagementPage } from '../pages/userManagement/UserManagement';
+import { SetPassword } from '../pages/setPassword/SetPassword';
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Route */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/set-password" element={<SetPassword />} />
 
       {/* Protected Routes */}
       <Route
