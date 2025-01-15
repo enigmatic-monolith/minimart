@@ -7,17 +7,32 @@ import { SetPasswordInfo, UserInfo } from "../validator/userManagementValidator"
 import { validate } from "class-validator";
 
 export const getAllUsers = async (req: AuthRequest, res: Response) => {
-    const supabase = supabaseAuthClient();
+    const supabaseAuth = supabaseAuthClient();
+    const supabase = supabaseClient(req.accessToken ?? '');
 
-    const { data: { users }, error } = await supabase.auth.admin.listUsers();
+    const { data: { users }, error } = await supabaseAuth.auth.admin.listUsers();
+    const { data: bannedUsers, error: bannedUsersError } = await supabase
+        .from('banned_users')
+        .select('user_id');
 
+    if (bannedUsersError) {
+        res.status(500).json({ error: bannedUsersError.message });
+        return;
+    }
+
+    const usersWithBanStatus = users.map((user: any) => {
+        return {
+            ...user,
+            is_banned: bannedUsers.some((bannedUser: any) => bannedUser.user_id === user.id),
+        };
+    });
 
     if (error) {
         res.status(500).json({ error: error.message });
         return;
     }
 
-    res.json(users);
+    res.json(usersWithBanStatus);
 
     return;
 };

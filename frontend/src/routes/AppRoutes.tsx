@@ -4,6 +4,7 @@ import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
 import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
 import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
+import { UserManagementPage } from '../pages/userManagement/UserManagement';
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <InventoryDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <UserManagementPage />
           </ProtectedRoute>
         }
       />
