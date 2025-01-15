@@ -2,20 +2,18 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import ProtectedRoute from './ProtectedRoute';
-import { HomePage } from '../pages/HomePage';
 import ResidentDashboard from '../pages/resident/ResidentDashboard';
+
+import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
+import { UserManagementPage } from '../pages/userManagement/UserManagement';
+import { SetPassword } from '../pages/setPassword/SetPassword';
 
 const getUserRole = (): string => {
   const role = useSelector((state: RootState) => state.auth.role);
   return role || 'guest';
 }
-
-import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
-import { LoginPage } from '../pages/LoginPage';
-import { HomePage } from '../pages/HomePage';
-import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
-import { UserManagementPage } from '../pages/userManagement/UserManagement';
-import { SetPassword } from '../pages/setPassword/SetPassword';
 
 const AppRoutes = () => {
   const userRole = getUserRole();

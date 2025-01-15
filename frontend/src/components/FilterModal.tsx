@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import './FilterModal.css';
+import { MinimartFilter } from '../types/minimartFilter';
 
 type FilterModalProps = {
   filters: {
-    category?: string[];
-    title?: string;
-    pointsRequired?: { min?: number; max?: number };
+    category: string[];
+    title: string;
+    pointsRequired: { min: number; max: number };
   };
   onClose: () => void;
-  onSave: (newFilters: object) => void;
+  onSave: (newFilters: MinimartFilter) => void;
 };
 
 const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) => {

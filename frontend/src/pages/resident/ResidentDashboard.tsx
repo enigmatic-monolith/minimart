@@ -34,15 +34,31 @@ const ResidentDashboard: React.FC = () => {
   useEffect(() => {
     // Fetch products from API using filters
     setProducts([
-      { id: 1, category: 'stationery', image_url: 'image1.jpg', title: 'Stationery 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 5, approved_by: 'admin' },
-      { id: 2, category: 'paper products', image_url: 'image2.jpg', title: 'Paper Product 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 3, approved_by: 'admin' },
-      { id: 3, category: 'toys', image_url: 'image3.jpg', title: 'Toys 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 6, approved_by: 'admin' },
-      { id: 4, category: 'stationery', image_url: 'image4.jpg', title: 'Stationery 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 5, approved_by: 'admin' },
-      { id: 5, category: 'paper products', image_url: 'image5.jpg', title: 'Paper Product 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 10, approved_by: 'admin' },
-      { id: 6, category: 'toys', image_url: 'image6.jpg', title: 'Toys 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 8, approved_by: 'admin' },
+      { id: 1, category: 'Stationery', image_url: 'image1.jpg', title: 'Stationery 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 50, approved_by: 'admin' },
+      { id: 2, category: 'Paper Products', image_url: 'image2.jpg', title: 'Paper Product 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 30, approved_by: 'admin' },
+      { id: 3, category: 'Toys', image_url: 'image3.jpg', title: 'Toys 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 560, approved_by: 'admin' },
+      { id: 4, category: 'Stationery', image_url: 'image4.jpg', title: 'Stationery 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 150, approved_by: 'admin' },
+      { id: 5, category: 'Paper Products', image_url: 'image5.jpg', title: 'Paper Product 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 100, approved_by: 'admin' },
+      { id: 6, category: 'Toys', image_url: 'image6.jpg', title: 'Toys 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 380, approved_by: 'admin' },
     
     ]);
   }, [filters]);
+
+  const applyFilters = () => {
+    return products.filter((product) => {
+      const matchesCategory =
+        filters.category.length === 0 || filters.category.includes(product.category);
+      const matchesTitle =
+        filters.title.trim() === '' || product.title.toLowerCase().includes(filters.title.toLowerCase());
+      const matchesPoints =
+        (product.pointsRequired || 0) >= filters.pointsRequired.min &&
+        (product.pointsRequired || 0) <= filters.pointsRequired.max;
+
+      return matchesCategory && matchesTitle && matchesPoints;
+    });
+  };
+
+  const filteredProducts = applyFilters();
 
   return (
     <div className='dashboard'>
@@ -67,10 +83,11 @@ const ResidentDashboard: React.FC = () => {
           <button onClick={() => setShowFilterModal(true)}>Filter Options</button>
         </aside>
 
-        <Grid2 className='products' container direction='row' spacing={1}>
-          {products.map((product) => (
-            <Grid2 key={product.id}>
-                <ProductCard
+        {filteredProducts.length > 0 ? (
+          <Grid2 className='products' container direction='row' spacing={1}>
+            {filteredProducts.map((product) => (
+              <Grid2 key={product.id}>
+                  <ProductCard
                     id={product.id}
                     category={product.category}
                     title={product.title}
@@ -79,11 +96,17 @@ const ResidentDashboard: React.FC = () => {
                     pointsRequired={product.pointsRequired}
                     approved_by={product.approved_by}
                     image_url={product.image_url}
-                />
-            </Grid2>
-          ))}
-        </Grid2>
-      </div>
+                  />
+              </Grid2>
+            ))}
+          </Grid2>
+        ) : (
+          <div className="no-products">
+            <p>No products match the current filters. Please try adjusting your filters.</p>
+          </div>
+        )}
+        
+    </div>
 
       {/* Filter Modal for Small Screens */}
       {showFilterModal && (
