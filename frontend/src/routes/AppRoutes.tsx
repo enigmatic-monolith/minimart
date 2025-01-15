@@ -6,6 +6,7 @@ import { HomePage } from '../pages/HomePage';
 import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
 import { UserManagementPage } from '../pages/userManagement/UserManagement';
 import { SetPassword } from '../pages/setPassword/SetPassword';
+import { Report } from '../pages/report/Report';
 
 const AppRoutes = () => {
   return (
@@ -44,6 +45,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <UserManagementPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/report"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <Report />
           </ProtectedRoute>
         }
       />
