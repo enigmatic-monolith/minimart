@@ -766,7 +766,7 @@ export type Database = {
           requested_by: string
           reviewed_at: string | null
           reviewed_by: string | null
-          status: "PENDING" | "SUCCESS" | "ERROR"
+          status: Database["public"]["Enums"]["product_request_status"]
         }
         Insert: {
           desc?: string | null
@@ -777,7 +777,7 @@ export type Database = {
           requested_by?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
-          status?: "PENDING" | "SUCCESS" | "ERROR"
+          status?: Database["public"]["Enums"]["product_request_status"]
         }
         Update: {
           desc?: string | null
@@ -788,7 +788,7 @@ export type Database = {
           requested_by?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
-          status?: "PENDING" | "SUCCESS" | "ERROR"
+          status?: Database["public"]["Enums"]["product_request_status"]
         }
         Relationships: [
           {
@@ -948,7 +948,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "resident"
-      request_status: "pending" | "approved" | "rejected"
+      product_request_status: "pending" | "approved" | "rejected"
       task_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
