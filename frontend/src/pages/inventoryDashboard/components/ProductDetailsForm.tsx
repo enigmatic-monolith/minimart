@@ -18,7 +18,6 @@ import {
 import { ProductDetailsMode } from "./ProductDetailsModal";
 
 export type CreateProductProps = {
-  onCreate: (product: FormData) => void;
   onClose: () => void;
 };
 
@@ -78,20 +77,31 @@ export const ProductDetailsForm = ({
     editProductProps.setMode("view");
   }, [editProductProps]);
 
-  const handleSave = useCallback(async () => {
-    if (!editProductProps || !editedProduct.id) return;
+  const uploadImageAndReturnUrl = useCallback(async () => {
     let image_url = undefined;
     if (image) {
       const res = await onUploadProductImage(image).unwrap();
       image_url = res.image_url;
-      console.log(image_url);
     }
+    return image_url;
+  }, [image, onUploadProductImage]);
+
+  const handleUpdate = useCallback(async () => {
+    if (!editProductProps || !editedProduct.id) return;
+    const imageUrl = await uploadImageAndReturnUrl();
     onUpdate({
       id: editedProduct.id,
-      product: { ...editedProduct, image_url },
+      product: { ...editedProduct, image_url: imageUrl },
     });
     editProductProps.setMode("view");
-  }, [image, editedProduct, onUploadProductImage, onUpdate, editProductProps]);
+  }, [uploadImageAndReturnUrl, editedProduct, onUpdate, editProductProps]);
+
+  const handleCreate = useCallback(async () => {
+    if (!createProductProps) return;
+    const imageUrl = await uploadImageAndReturnUrl();
+    onCreate({ ...editedProduct, image_url: imageUrl });
+    createProductProps.onClose();
+  }, [uploadImageAndReturnUrl, onCreate, editedProduct, createProductProps]);
 
   return (
     <>
@@ -205,26 +215,41 @@ export const ProductDetailsForm = ({
                   onChange={(e) => handleChange("desc", e.target.value)}
                 />
               </Grid2>
-              <Grid2 size={{ xs: 6 }}>
-                <Button
-                  onClick={handleCancel}
-                  color="error"
-                  variant="outlined"
-                  fullWidth
-                >
-                  Cancel
-                </Button>
-              </Grid2>
-              <Grid2 size={{ xs: 6 }}>
-                <Button
-                  onClick={handleSave}
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                >
-                  Save
-                </Button>
-              </Grid2>
+              {mode === "edit" ? (
+                <>
+                  <Grid2 size={{ xs: 6 }}>
+                    <Button
+                      onClick={handleCancel}
+                      color="error"
+                      variant="outlined"
+                      fullWidth
+                    >
+                      Cancel
+                    </Button>
+                  </Grid2>
+                  <Grid2 size={{ xs: 6 }}>
+                    <Button
+                      onClick={handleUpdate}
+                      color="primary"
+                      variant="contained"
+                      fullWidth
+                    >
+                      Save
+                    </Button>
+                  </Grid2>
+                </>
+              ) : (
+                <Grid2 size={{ xs: 12 }}>
+                  <Button
+                    onClick={handleCreate}
+                    color="primary"
+                    variant="outlined"
+                    fullWidth
+                  >
+                    Create
+                  </Button>
+                </Grid2>
+              )}
             </Grid2>
           </Grid2>
         </Grid2>

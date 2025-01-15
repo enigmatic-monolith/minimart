@@ -9,7 +9,7 @@ export type ProductListProps = {
 
 export const ProductList = ({ products }: ProductListProps) => {
   const sortedById = useMemo(() => {
-    return products.slice().sort((a, b) => a.id - b.id);
+    return products.slice().sort((a, b) => b.id - a.id);
   }, [products]);
 
   return (

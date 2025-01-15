@@ -13,7 +13,7 @@ export type ProductDetailsModalProps = {
   open: boolean;
   onClose: () => void;
   mode: ProductDetailsMode;
-  viewEditProductProps: ViewEditProductProps
+  viewEditProductProps?: ViewEditProductProps
 };
 
 export const ProductDetailsModal = ({
@@ -29,7 +29,8 @@ export const ProductDetailsModal = ({
   }, [open, mode]);
 
   return <Dialog open={open} onClose={onClose}>
-    {currMode === 'view' && <ProductDetailsView {...viewEditProductProps} setMode={setMode}/>}
-    {currMode === 'edit' && <ProductDetailsForm editProductProps={{ ...viewEditProductProps, setMode}} mode={currMode} />}
+    {currMode === 'view' && viewEditProductProps && <ProductDetailsView {...viewEditProductProps} setMode={setMode}/>}
+    {currMode === 'edit' && viewEditProductProps && <ProductDetailsForm editProductProps={{ ...viewEditProductProps, setMode}} mode={currMode} />}
+    {currMode === 'create' && <ProductDetailsForm createProductProps={{ onClose }} mode={currMode} />}
   </Dialog>;
 };
