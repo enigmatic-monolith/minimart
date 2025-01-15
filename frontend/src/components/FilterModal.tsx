@@ -97,8 +97,8 @@ const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) =
             onChange={(e) => handleMaxChange(Number(e.target.value))}
           />
           <div className="range-values">
-            <span>{minValue}</span>
-            <span>{maxValue}</span>
+            <span>Min: {minValue}</span>
+            <span>Max: {maxValue}</span>
           </div>
         </div>
 
