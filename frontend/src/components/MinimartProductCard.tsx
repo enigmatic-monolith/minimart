@@ -36,6 +36,7 @@ const MinimartProductCard: React.FC<MinimartProductCardProps> = ({
         quantity,
       });
       setQuantity(0); // Reset quantity after adding to cart
+      alert(`Successfully Added ${quantity} of ${title} to cart`)
       console.log(`Added ${quantity} of ${title} to cart`);
     } else {
       console.log(`Error adding ${quantity} of ${title} to cart`);
