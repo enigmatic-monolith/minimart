@@ -127,7 +127,7 @@ export const resetPassword = async (req: AuthRequest, res: Response) => {
     const { error: updateError } = await supabase
         .from('reset_password_tokens')
         .insert([{ user_id: userInfo.id, token: hashHex }]);
-    if (updateError) {
+    if (updateError && Object.keys(updateError).length > 0) {
         res.status(500).json(updateError);
         return;
     }

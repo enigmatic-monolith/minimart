@@ -56,6 +56,22 @@ export const UserManagementPage = () => {
       })
   };
 
+  const sendResetPasswordEmail = (user: User) => {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/users/reset-password`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: user.id }),
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          alert("Reset password email sent");
+        }
+      });
+  };
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/users`, {
       headers: {
@@ -86,23 +102,32 @@ export const UserManagementPage = () => {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phone}</TableCell>
                 <TableCell>
-                  {user.is_banned ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {user.is_banned ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => unbanUser(user)}
+                      >
+                        Unban
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => banUser(user)}
+                      >
+                        Ban
+                      </Button>
+                    )}
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => unbanUser(user)}
+                      onClick={() => sendResetPasswordEmail(user)}
                     >
-                      Unban
+                      Reset Password
                     </Button>
-                    ) : (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => banUser(user)}
-                    >
-                      Ban
-                    </Button>
-                  )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
