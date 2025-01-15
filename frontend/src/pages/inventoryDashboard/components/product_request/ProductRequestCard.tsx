@@ -5,14 +5,31 @@ import {
   useApproveProductRequestMutation,
   useRejectProductRequestMutation,
 } from "../../../../redux/api/productRequestApi";
+import { useCallback } from "react";
+import { useCreateProductMutation } from "../../../../redux/api/productApi";
 
 export type ProductRequestCardProps = {
   request: ProductRequest;
 };
 
 export const ProductRequestCard = ({ request }: ProductRequestCardProps) => {
-  const [onApprove] = useApproveProductRequestMutation();
-  const [onReject] = useRejectProductRequestMutation();
+  const [approveRequest] = useApproveProductRequestMutation();
+  const [createProduct] = useCreateProductMutation();
+  const [rejectRequest] = useRejectProductRequestMutation();
+
+  const handleApprove = useCallback(() => {
+    approveRequest(request.id);
+    createProduct({
+      name: request.name,
+      desc: request.desc,
+      price: 0,
+      quantity: 0,
+    });
+  }, [approveRequest, createProduct, request]);
+
+  const handleReject = useCallback(() => {
+    rejectRequest(request.id);
+  }, [rejectRequest, request]);
 
   return (
     <Paper
@@ -72,17 +89,13 @@ export const ProductRequestCard = ({ request }: ProductRequestCardProps) => {
             flexDirection: { xs: "column", sm: "row" },
           }}
         >
-          <IconButton
-            color="success"
-            size="small"
-            onClick={() => onApprove(request.id)}
-          >
+          <IconButton color="success" size="small" onClick={handleApprove}>
             <Check />
           </IconButton>
           <IconButton
             color="error"
             size="small"
-            onClick={() => onReject(request.id)}
+            onClick={handleReject}
           >
             <Close />
           </IconButton>
