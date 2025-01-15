@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Navbar from '../../components/NavBar';
 import MinimartProductCard from '../../components/MinimartProductCard';
 import FilterModal from '../../components/FilterModal';
-// import styles from './ResidentDashboard.css';
 import Grid2 from '@mui/material/Grid2';
 import './ResidentDashboard.css';
 import placeholderImg from '../../assets/image-placeholder.png';
@@ -73,7 +72,7 @@ const ResidentDashboard: React.FC = () => {
 
       {/* Navigation Bar */}
       {isLargeScreen ? (
-        <Navbar position="top" />
+        <Navbar position="top" active='dashboard'/>
       ) : (
         <Navbar position="bottom" active="dashboard" />
       )}

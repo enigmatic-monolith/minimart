@@ -1,31 +1,33 @@
 import React from 'react';
-// import styles from './Navbar.css';
+import { Link } from 'react-router-dom';
+import './NavBar.css';
 
-type NavbarProps = {
+type NavBarProps = {
   position: 'top' | 'bottom';
   active?: string; // Active page indicator for small screens
 };
 
-const Navbar: React.FC<NavbarProps> = ({ position, active }) => {
+const NavBar: React.FC<NavBarProps> = ({ position, active }) => {
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-    { id: 'cart', label: 'Cart', icon: '🛒' },
-    { id: 'profile', label: 'Profile', icon: '👤' },
+    { id: 'dashboard', label: 'Dashboard', icon: '🏠', route: '/' },
+    { id: 'cart', label: 'Cart', icon: '🛒', route: '/cart' },
+    { id: 'profile', label: 'Profile', icon: '👤', route: '/profile' },
   ];
 
   return (
-    <nav className=''/*{`${styles.navbar} ${styles[position]}`}*/>
+    <nav className='navbar'>
       {navItems.map((item) => (
-        <div
+        <Link
           key={item.id}
-          className=''/*{`${styles.navItem} ${active === item.id ? styles.active : ''}`}*/
+          to={item.route}
+          className='navItem'/*{`${styles.navItem} ${active === item.id ? styles.active : ''}`}*/
         >
           <span>{item.icon}</span>
           {item.label}
-        </div>
+        </Link>
       ))}
     </nav>
   );
 };
 
-export default Navbar;
+export default NavBar;

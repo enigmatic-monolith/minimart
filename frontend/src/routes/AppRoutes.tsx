@@ -9,6 +9,8 @@ import { LoginPage } from '../pages/LoginPage';
 import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
 import { UserManagementPage } from '../pages/userManagement/UserManagement';
 import { SetPassword } from '../pages/setPassword/SetPassword';
+import { CartProvider } from '../pages/resident/CartContext';
+import CartPage from '../pages/resident/CartPage';
 
 const getUserRole = (): string => {
   const role = useSelector((state: RootState) => state.auth.role);
@@ -33,7 +35,9 @@ const AppRoutes = () => {
             {userRole === 'admin' ? (
               <TasksDashboard />
             ) : userRole === 'resident' ? (
-              <ResidentDashboard />
+              <CartProvider>
+                <ResidentDashboard />
+              </CartProvider>
             ) : (
               <Navigate to="/login" replace />
             )}
@@ -45,6 +49,16 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin', 'resident']}>
             <TasksDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <ProtectedRoute allowedRoles={['resident']}>
+            <CartProvider>
+              <CartPage />
+            </CartProvider>
           </ProtectedRoute>
         }
       />

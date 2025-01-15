@@ -1,5 +1,6 @@
 import React from 'react';
 import './MinimartProductCard.css';
+import { useCart } from '../pages/resident/CartContext';
 
 interface MinimartProductCardProps {
     id: number
@@ -23,9 +24,22 @@ const MinimartProductCard: React.FC<MinimartProductCardProps> = ({
     image_url,
   }) => {
   const [quantity, setQuantity] = React.useState(0);
+  const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    console.log(`Added ${quantity} of ${title} to cart`);
+    if (quantity > 0) {
+      addToCart({
+        id,
+        title,
+        image_url,
+        pointsRequired: pointsRequired || 0,
+        quantity,
+      });
+      setQuantity(0); // Reset quantity after adding to cart
+      console.log(`Added ${quantity} of ${title} to cart`);
+    } else {
+      console.log(`Error adding ${quantity} of ${title} to cart`);
+    }
   };
 
   return (
