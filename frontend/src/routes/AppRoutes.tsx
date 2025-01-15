@@ -1,8 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import { TasksDashboard } from '../pages/TasksDashboard';
+import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
 import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
+import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin', 'resident']}>
             <TasksDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/inventory"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <InventoryDashboard />
           </ProtectedRoute>
         }
       />

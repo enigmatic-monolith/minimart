@@ -20,7 +20,7 @@ export const LoginPage = () => {
   const redirectTo = queryParams.get('redirectTo') || '/';
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session) {
         const { access_token, user } = session;
         const jwt = jwtDecode<JwtPayload>(access_token);
@@ -28,6 +28,9 @@ export const LoginPage = () => {
         navigate(redirectTo);  
       }
     });
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   return <Auth
