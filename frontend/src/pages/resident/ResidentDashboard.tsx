@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/NavBar';
-import ProductCard from '../../components/ProductCard';
+import MinimartProductCard from '../../components/MinimartProductCard';
 import FilterModal from '../../components/FilterModal';
 // import styles from './ResidentDashboard.css';
 import Grid2 from '@mui/material/Grid2';
 import './ResidentDashboard.css';
+import placeholderImg from '../../assets/image-placeholder.png';
 
 import { Product } from '../../types/product';
 import { MinimartFilter } from '../../types/minimartFilter';
@@ -34,12 +35,12 @@ const ResidentDashboard: React.FC = () => {
   useEffect(() => {
     // Fetch products from API using filters
     setProducts([
-      { id: 1, category: 'Stationery', image_url: 'image1.jpg', title: 'Stationery 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 50, approved_by: 'admin' },
-      { id: 2, category: 'Paper Products', image_url: 'image2.jpg', title: 'Paper Product 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 30, approved_by: 'admin' },
-      { id: 3, category: 'Toys', image_url: 'image3.jpg', title: 'Toys 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 560, approved_by: 'admin' },
-      { id: 4, category: 'Stationery', image_url: 'image4.jpg', title: 'Stationery 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 150, approved_by: 'admin' },
-      { id: 5, category: 'Paper Products', image_url: 'image5.jpg', title: 'Paper Product 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 100, approved_by: 'admin' },
-      { id: 6, category: 'Toys', image_url: 'image6.jpg', title: 'Toys 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 380, approved_by: 'admin' },
+      { id: 1, category: 'Stationery', image_url: placeholderImg, title: 'Stationery 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 50, approved_by: 'admin' },
+      { id: 2, category: 'Paper Products', image_url: placeholderImg, title: 'Paper Product 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 30, approved_by: 'admin' },
+      { id: 3, category: 'Toys', image_url: placeholderImg, title: 'Toys 1', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 560, approved_by: 'admin' },
+      { id: 4, category: 'Stationery', image_url: placeholderImg, title: 'Stationery 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 150, approved_by: 'admin' },
+      { id: 5, category: 'Paper Products', image_url: placeholderImg, title: 'Paper Product 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 100, approved_by: 'admin' },
+      { id: 6, category: 'Toys', image_url: placeholderImg, title: 'Toys 2', description: 'The product description goes here!', denomination: 'pcs', pointsRequired: 380, approved_by: 'admin' },
     
     ]);
   }, [filters]);
@@ -87,7 +88,7 @@ const ResidentDashboard: React.FC = () => {
           <Grid2 className='products' container direction='row' spacing={1}>
             {filteredProducts.map((product) => (
               <Grid2 key={product.id}>
-                  <ProductCard
+                  <MinimartProductCard
                     id={product.id}
                     category={product.category}
                     title={product.title}

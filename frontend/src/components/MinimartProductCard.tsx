@@ -1,7 +1,7 @@
 import React from 'react';
-import './ProductCard.css';
+import './MinimartProductCard.css';
 
-interface ProductCardProps {
+interface MinimartProductCardProps {
     id: number
     category: string
     title: string
@@ -12,7 +12,7 @@ interface ProductCardProps {
     image_url: string
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
+const MinimartProductCard: React.FC<MinimartProductCardProps> = ({
     id,
     category,
     title,
@@ -68,4 +68,4 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 };
 
-export default ProductCard;
+export default MinimartProductCard;

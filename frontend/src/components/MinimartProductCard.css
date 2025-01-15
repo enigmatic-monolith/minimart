@@ -40,7 +40,7 @@
   
 .product-description {
     color: #555;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin: 2px 0;
 }
   
@@ -100,7 +100,7 @@
     }
       
     .product-description {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 
     .product-price {
@@ -121,11 +121,11 @@
       
 }
 
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 470px) {
     .product-card {
         padding: 8px 12px;
         margin: 2px;
-        max-width: 120px;
+        max-width: 150px;
     }
       
     .product-title {
