@@ -22,7 +22,7 @@ export const getAllProductRequests = async (req: AuthRequest, res: Response) => 
 };
 
 export const updateProductRequestStatus =
-  (status: Enums<"request_status">) => async (req: AuthRequest, res: Response) => {
+  (status: Enums<"product_request_status">) => async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
 
     const supabase = supabaseClient(req.accessToken ?? "");
