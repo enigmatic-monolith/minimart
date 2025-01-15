@@ -9,7 +9,9 @@ import {
 } from "@mui/material";
 import { Mode } from "./TaskDetailsModal";
 import { useCallback } from "react";
-import { TaskWithSubmissions } from "../../../redux/api/tasksApi";
+import { TaskWithSubmissions, useCreateUserTaskMutation } from "../../../redux/api/tasksApi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 export type TaskDetailsViewProps = {
   task: TaskWithSubmissions;
@@ -17,6 +19,10 @@ export type TaskDetailsViewProps = {
   onArchive: (id: number) => void;
   onRestore: (id: number) => void;
   onClose: () => void;
+  isPending: boolean;
+  isApproved: boolean;
+  isRejected: boolean;
+  refetch: () => void;
 };
 
 const TaskDetailsView = ({
@@ -25,7 +31,13 @@ const TaskDetailsView = ({
   onArchive,
   onRestore,
   onClose,
+  isPending,
+  isApproved,
+  isRejected,
+  refetch
 }: TaskDetailsViewProps) => {
+  const { user, role } = useSelector((state: RootState) => state.auth);
+
   const handleArchive = useCallback(() => {
     onArchive(task.id);
   }, [onArchive, onClose, task.id]);
@@ -33,6 +45,8 @@ const TaskDetailsView = ({
   const handleRestore = useCallback(() => {
     onRestore(task.id);
   }, [onArchive, onClose, task.id]);
+
+  const [createUserTask] = useCreateUserTaskMutation();
 
   return (
     <>
@@ -72,6 +86,7 @@ const TaskDetailsView = ({
           {task.desc}
         </Typography>
       </DialogContent>
+      {role == "admin" ?
       <DialogActions>
         <Badge
           badgeContent={task.pending_count}
@@ -94,6 +109,28 @@ const TaskDetailsView = ({
           </Button>
         )}
       </DialogActions>
+      : 
+      <DialogActions>
+        {isPending && 
+        <Chip label="Pending" color="info" />
+        }
+        {isApproved && 
+        <Chip label="Approved" color="success" />
+        }
+        {isRejected && 
+        <Chip label="Rejected" color="warning" />
+        }
+        <Button onClick={() => {
+          createUserTask({ userId: user?.id as string, taskId: task.id });
+          refetch();
+          onClose();
+        }} 
+        color="primary"
+        disabled={isPending || isApproved || isRejected}
+        >
+          Request for points
+        </Button>
+      </DialogActions>}
     </>
   );
 };

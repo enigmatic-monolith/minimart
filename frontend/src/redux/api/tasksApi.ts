@@ -80,6 +80,17 @@ export const tasksApi = createApi({
         { type: "Task" },
       ],
     }),
+    getUserTasksByUserId: builder.query<UserTask, string>({
+      query: (userId) => `${taskRoute}/${userId}/usertasks`,
+    }),
+    createUserTask: builder.mutation<UserTask, {userId: string; taskId: number}>({
+      query: ({ userId, taskId}) => {
+        return {
+          url: `${taskRoute}/${userId}/${taskId}`,
+          method: "POST",
+        }
+      }
+    }),
     approveUserTask: builder.mutation<Task, {userId: string; taskId: number}>({
       query: ({userId, taskId}) => {
         return {
@@ -114,6 +125,8 @@ export const {
   useUpdateTaskMutation,
   useArchiveTaskMutation,
   useRestoreTaskMutation,
+  useGetUserTasksByUserIdQuery,
+  useCreateUserTaskMutation,
   useApproveUserTaskMutation,
   useRejectUserTaskMutation
 } = tasksApi;

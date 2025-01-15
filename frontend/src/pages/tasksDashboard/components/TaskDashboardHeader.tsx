@@ -3,6 +3,8 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import TaskDetailsModal from "./TaskDetailsModal";
 import { CreateTaskProps } from "./TaskDetailsForm";
+import { useSelector } from 'react-redux';
+import { RootState } from "../../../redux/store";
 
 export type TaskDashboardHeaderProps = {
   createTaskProps: Omit<CreateTaskProps, 'onClose'>;
@@ -11,6 +13,7 @@ export type TaskDashboardHeaderProps = {
 export const TaskDashboardHeader = ({
   createTaskProps,
 }: TaskDashboardHeaderProps) => {
+  const { role } = useSelector((state: RootState) => state.auth);
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -32,9 +35,10 @@ export const TaskDashboardHeader = ({
           <Typography variant="h6" color="white" fontWeight="bold">
             Voucher Tasks
           </Typography>
+          {role == "admin" && 
           <IconButton color="primary" onClick={() => setModalOpen(true)}>
             <Add />
-          </IconButton>
+          </IconButton>}
         </Box>
       </Box>
       <TaskDetailsModal

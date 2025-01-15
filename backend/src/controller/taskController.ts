@@ -142,3 +142,39 @@ export const updateUserTaskStatus =
 
     res.status(200).json(data);
   };
+
+  export const createUserTask = async (req: AuthRequest, res: Response) => {
+    const { userId, taskId } = req.params;
+    const supabase = supabaseClient(req.accessToken ?? "");
+  
+    const { data, error } = await supabase
+      .from("user_tasks")
+      .insert([{ user_id: userId, task_id: taskId, status: "pending" }]);
+  
+    if (error) {
+        console.log("Error", error.message);
+      res.status(500).json({ error: error.message });
+      return;
+    }
+  
+    res.status(201).json(data);
+  };
+
+  export const getUserTasksByUserId = async(req: AuthRequest, res: Response) => {
+    const { userId } = req.params;
+    const supabase = supabaseClient(req.accessToken ?? "");
+
+    const { data, error } = await supabase
+        .from("user_tasks")
+        .select("*")
+        .eq("user_id", userId);
+
+    if (error) {
+        console.log("Error", error.message);
+        res.status(500).json({ error: error.message });
+        return;
+    }
+    
+    console.log(data);
+    res.status(201).json(data);
+  }
