@@ -1,9 +1,10 @@
 import { Response } from "express";
 import { supabaseClient } from "../services/supabaseClient";
 import { AuthRequest } from "../middleware/authentication";
-import { Enums, Tables } from "../database.types";
+import { Enums, Tables, TablesUpdate } from "../database.types";
 
 export type Task = Tables<"tasks">;
+export type TaskUpdate = TablesUpdate<"tasks">;
 export type UserTask = Tables<"user_tasks">;
 
 export const getAllTasks = async (req: AuthRequest, res: Response) => {
@@ -94,7 +95,7 @@ export const archiveTask = async (req: AuthRequest, res: Response) => {
 
   const { data, error } = await supabase
     .from("tasks")
-    .update({ archived_at: new Date().toISOString() })
+    .update({ archived_at: new Date().toISOString() } as TaskUpdate)
     .eq("id", id);
 
   if (error) {
@@ -174,7 +175,6 @@ export const updateUserTaskStatus =
         res.status(500).json({ error: error.message });
         return;
     }
-    
-    console.log(data);
+
     res.status(201).json(data);
   }

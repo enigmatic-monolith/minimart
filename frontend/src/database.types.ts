@@ -871,7 +871,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          created_by: string
+          created_by?: string
           desc?: string | null
           id?: number
           image_url?: string | null
@@ -920,27 +920,33 @@ export type Database = {
         Row: {
           archived_at: string | null
           created_at: string
+          created_by: string
           desc: string | null
           id: number
           last_updated_at: string
+          last_updated_by: string | null
           points: number
           title: string
         }
         Insert: {
           archived_at?: string | null
           created_at?: string
+          created_by?: string
           desc?: string | null
           id?: number
           last_updated_at?: string
+          last_updated_by?: string | null
           points: number
           title: string
         }
         Update: {
           archived_at?: string | null
           created_at?: string
+          created_by?: string
           desc?: string | null
           id?: number
           last_updated_at?: string
+          last_updated_by?: string | null
           points?: number
           title?: string
         }
