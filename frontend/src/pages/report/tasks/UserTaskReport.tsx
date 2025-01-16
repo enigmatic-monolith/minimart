@@ -35,7 +35,7 @@ export const UserTaskReport = ({
 
   return (
     <div>
-      <h3 style={{ textAlign: 'center' }}>Number of user tasks against time</h3>
+      <h3 style={{ textAlign: 'center' }}>User tasks activities against time</h3>
       <BarChart width={730} height={400} data={data}>
         <XAxis dataKey="name" />
         <YAxis />
