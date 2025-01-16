@@ -69,10 +69,25 @@ export const updateProduct = async (req: AuthRequest, res: Response) => {
       price,
       image_url,
     })
-    .eq("id", id);
+    .eq("id", id)
+    .select();
 
   if (error) {
     res.status(500).json({ error: error.message });
+    return;
+  }
+
+  const { error: updateError } = await supabase
+    .from("product_updates")
+    .insert([
+      {
+        product_id: id,
+        new_quantity: quantity,
+      }
+    ]);
+  
+  if (updateError) {
+    res.status(500).json({ error: updateError.message });
     return;
   }
 
@@ -92,10 +107,25 @@ export const createProduct = async (req: AuthRequest, res: Response) => {
       price,
       image_url,
     },
-  ]);
+  ])
+    .select();
 
   if (error) {
     res.status(500).json({ error: error.message });
+    return;
+  }
+
+  const { error: updateError } = await supabase
+    .from("product_updates")
+    .insert([
+      {
+        product_id: data?.[0].id,
+        new_quantity: quantity,
+      }
+    ]);
+  
+  if (updateError) {
+    res.status(500).json({ error: updateError.message });
     return;
   }
 
