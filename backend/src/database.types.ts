@@ -943,6 +943,7 @@ export type Database = {
       user_tasks: {
         Row: {
           created_at: string
+          id: number
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["task_status"]
@@ -952,6 +953,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          id?: number
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
@@ -961,6 +963,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          id?: number
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
