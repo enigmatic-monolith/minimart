@@ -131,7 +131,7 @@ export const updateUserTaskStatus =
 
     const { data, error } = await supabase
       .from("user_tasks")
-      .update({ status: status })
+      .update({ status: status, reviewed_at: new Date().toISOString(), reviewed_by: req.user.sub  })
       .eq("user_id", userId)
       .eq("task_id", taskId);
 
