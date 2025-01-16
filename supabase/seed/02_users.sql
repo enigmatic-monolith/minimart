@@ -102,9 +102,9 @@ INSERT INTO
     );
 
 -- Assign roles for test user
-INSERT INTO public.user_roles (user_id, role)
+INSERT INTO public.users (user_id, role, username)
 VALUES
-  ('d247f785-882d-4cef-baff-5457e9a6a359', 'admin'),
-  ('5ae1fa78-ae05-4817-a87c-c1d85cbb00d5', 'resident'),
-  ('3a6b6a62-cfd9-4587-a871-96760e9a976f', 'resident');
+  ('d247f785-882d-4cef-baff-5457e9a6a359', 'admin', 'Admin 1'),
+  ('5ae1fa78-ae05-4817-a87c-c1d85cbb00d5', 'resident', 'Resident 1'),
+  ('3a6b6a62-cfd9-4587-a871-96760e9a976f', 'resident', 'Resident 2');
 
