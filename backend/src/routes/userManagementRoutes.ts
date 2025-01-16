@@ -1,10 +1,12 @@
 import express from 'express';
-import { banUser, getAllUsers, resetPassword, setPassword, unbanUser } from '../controller/userManagementController';
+import { banUser, getAllUsers, getUserById, resetPassword, setPassword, unbanUser } from '../controller/userManagementController';
 import { authorizeRole } from '../middleware/authorization';
 
 const router = express.Router();
 
 router.get("/", authorizeRole(['admin']), getAllUsers);
+
+router.get("/:id", getUserById);
 
 router.post("/ban", authorizeRole(['admin']), banUser);
 

@@ -216,3 +216,20 @@ export const setPassword = async (req: AuthRequest, res: Response) => {
     await supabase.from('reset_password_tokens').delete().eq('user_id', info.id);
     res.status(200).json(user);
 };
+
+export const getUserById = async (req: AuthRequest, res: Response) => {
+    const { id } = req.params;
+    const supabase = supabaseClient(req.accessToken ?? "");
+  
+    const { data, error } = await supabase.from("users").select("*").eq('user_id', id).single();
+  
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+  
+    res.json(data);
+  
+    return;
+  };
+  

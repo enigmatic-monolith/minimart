@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/NavBar';
 import MinimartProductCard from '../../components/MinimartProductCard';
@@ -9,10 +9,15 @@ import placeholderImg from '../../assets/image-placeholder.png';
 
 import { Product } from '../../types/product';
 import { MinimartFilter } from '../../types/minimartFilter';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useGetUserByIdQuery } from '../../redux/api/userApi';
 
 const ResidentDashboard: React.FC = () => {
-  const [username, setUsername] = useState('Resident Name'); // Placeholder
-  const [voucherPoints, setVoucherPoints] = useState(100);  // Placeholder
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { data: userData } = useGetUserByIdQuery(user?.id!, {
+    skip: !user?.id,
+  });
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [products, setProducts] = useState<Product[]>([]); // Mock data to be fetched
@@ -64,9 +69,9 @@ const ResidentDashboard: React.FC = () => {
     <div className='dashboard'>
       {/* Top Section */}
       <header className='header'>
-        <h3>Welcome, {username}</h3>
+        <h3>Welcome, {userData?.username}</h3>
         <div className='voucherPoints'>
-          Voucher Points: <span>{voucherPoints}</span>
+          Voucher Points: <span>{userData?.points}</span>
         </div>
       </header>
 
