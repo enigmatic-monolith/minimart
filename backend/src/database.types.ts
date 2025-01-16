@@ -859,33 +859,39 @@ export type Database = {
       products: {
         Row: {
           created_at: string
+          created_by: string
           desc: string | null
           id: number
           image_url: string | null
+          last_updated_at: string
+          last_updated_by: string | null
           name: string
           price: number
           quantity: number
-          updated_at: string
         }
         Insert: {
           created_at?: string
+          created_by: string
           desc?: string | null
           id?: number
           image_url?: string | null
+          last_updated_at?: string
+          last_updated_by?: string | null
           name: string
           price: number
           quantity: number
-          updated_at?: string
         }
         Update: {
           created_at?: string
+          created_by?: string
           desc?: string | null
           id?: number
           image_url?: string | null
+          last_updated_at?: string
+          last_updated_by?: string | null
           name?: string
           price?: number
           quantity?: number
-          updated_at?: string
         }
         Relationships: []
       }
@@ -916,27 +922,27 @@ export type Database = {
           created_at: string
           desc: string | null
           id: number
+          last_updated_at: string
           points: number
           title: string
-          updated_at: string
         }
         Insert: {
           archived_at?: string | null
           created_at?: string
           desc?: string | null
           id?: number
+          last_updated_at?: string
           points: number
           title: string
-          updated_at?: string
         }
         Update: {
           archived_at?: string | null
           created_at?: string
           desc?: string | null
           id?: number
+          last_updated_at?: string
           points?: number
           title?: string
-          updated_at?: string
         }
         Relationships: []
       }
@@ -944,31 +950,31 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          last_updated_at: string
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["task_status"]
           task_id: number
-          updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
+          last_updated_at?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task_id: number
-          updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: number
+          last_updated_at?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task_id?: number
-          updated_at?: string
           user_id?: string
         }
         Relationships: [

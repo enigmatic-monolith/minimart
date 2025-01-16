@@ -82,7 +82,8 @@ export const updateProduct = async (req: AuthRequest, res: Response) => {
       quantity,
       price,
       image_url,
-    })
+      last_updated_by: req.user.sub
+    } as ProductUpdate)
     .eq("id", id)
     .select();
 
@@ -120,6 +121,7 @@ export const createProduct = async (req: AuthRequest, res: Response) => {
       quantity,
       price,
       image_url,
+      created_by: req.user.sub
     },
   ])
     .select();
