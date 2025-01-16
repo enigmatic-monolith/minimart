@@ -11,11 +11,7 @@ export const UserTaskReport = ({
 }) => {
   const data = useMemo(() => {
     // array of last 7 days from `time`
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(time);
-      date.setDate(date.getDate() - 6 + i);
-      return date;
-    });
+    const last7Days = Array.from({ length: 7 }, (_, i) => new Date(time.getTime() + i * 24 * 3600 * 1000));
     return last7Days.map((date) => {
       const createCount = tasks.map(
         (task) => task.user_tasks
@@ -28,7 +24,6 @@ export const UserTaskReport = ({
       const label = date.toLocaleDateString('default', {
         day: 'numeric',
         month: 'short',
-        year: 'numeric',
       });
       return {
         name: label,

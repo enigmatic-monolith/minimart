@@ -11,17 +11,12 @@ export const TaskCountReport = ({
 }) => {
   const data = useMemo(() => {
     // array of last 7 days from `time`
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(time);
-      date.setDate(date.getDate() - 6 + i);
-      return date;
-    });
+    const last7Days = Array.from({ length: 7 }, (_, i) => new Date(time.getTime() + i * 24 * 3600 * 1000));
     return last7Days.map((date) => {
       const count = tasks.filter((task) => new Date(task.created_at).toDateString() === date.toDateString()).length;
       const label = date.toLocaleDateString('default', {
         day: 'numeric',
         month: 'short',
-        year: 'numeric',
       });
       return {
         name: label,
