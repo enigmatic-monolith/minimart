@@ -8,7 +8,7 @@ import { InventoryReport } from "./inventory/InventoryReport";
 
 export const Report = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(
-    dayjs(new Date(new Date().getTime() - 6 * 24 * 3600 * 1000))
+    dayjs(new Date(2025, 0, 10))
   );
 
   return (
