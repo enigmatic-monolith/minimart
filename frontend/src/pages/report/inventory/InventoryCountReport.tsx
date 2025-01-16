@@ -34,17 +34,11 @@ export const InventoryCountReport = ({
         if (indices[i] === -1) {
           continue;
         }
-        let found = false;
-        while (indices[i] < product.quantities.length) {
+        while (indices[i] < product.quantities.length - 1) {
           if (product.quantities[indices[i]].day.toDateString() === currTime.toDateString() || product.quantities[indices[i]].day.getTime() > currTime.getTime()) {
-            found = true;
             break;
           }
           indices[i]++;
-        }
-        if (!found) {
-          indices[i] = -1;
-          continue;
         }
 
         dataPoint[product.name] = product.quantities[indices[i]].quantity;
