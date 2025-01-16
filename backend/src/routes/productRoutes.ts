@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createProduct,
+  getAllProductLog,
   getAllProducts,
   updateProduct,
   uploadProductImage,
@@ -11,6 +12,8 @@ import { authorizeRole } from "../middleware/authorization";
 const router = express.Router();
 
 router.get("/", getAllProducts);
+
+router.get("/log", authorizeRole(['admin']), getAllProductLog);
 
 router.post("/", authorizeRole(["admin"]), createProduct);
 

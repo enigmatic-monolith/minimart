@@ -25,6 +25,20 @@ export const getAllProducts = async (req: AuthRequest, res: Response) => {
   return;
 };
 
+export const getAllProductLog = async (req: AuthRequest, res: Response) => {
+  const supabase = supabaseClient(req.accessToken ?? "");
+
+  const { data, error } = await supabase.from("product_updates").select("*");
+
+  if (error) {
+    res.status(500).json(error);
+    return;
+  }
+
+  res.json(data);
+  return;
+}
+
 export const uploadProductImage = async (req: AuthRequest, res: Response) => {
   const image = req.file;
   const supabase = supabaseClient(req.accessToken ?? "");
@@ -69,10 +83,25 @@ export const updateProduct = async (req: AuthRequest, res: Response) => {
       price,
       image_url,
     })
-    .eq("id", id);
+    .eq("id", id)
+    .select();
 
   if (error) {
     res.status(500).json({ error: error.message });
+    return;
+  }
+
+  const { error: updateError } = await supabase
+    .from("product_updates")
+    .insert([
+      {
+        product_id: id,
+        new_quantity: quantity,
+      }
+    ]);
+  
+  if (updateError) {
+    res.status(500).json({ error: updateError.message });
     return;
   }
 
@@ -92,10 +121,25 @@ export const createProduct = async (req: AuthRequest, res: Response) => {
       price,
       image_url,
     },
-  ]);
+  ])
+    .select();
 
   if (error) {
     res.status(500).json({ error: error.message });
+    return;
+  }
+
+  const { error: updateError } = await supabase
+    .from("product_updates")
+    .insert([
+      {
+        product_id: data?.[0].id,
+        new_quantity: quantity,
+      }
+    ]);
+  
+  if (updateError) {
+    res.status(500).json({ error: updateError.message });
     return;
   }
 
