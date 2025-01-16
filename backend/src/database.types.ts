@@ -800,6 +800,35 @@ export type Database = {
           },
         ]
       }
+      product_updates: {
+        Row: {
+          created_at: string
+          id: number
+          new_quantity: number
+          product_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          new_quantity: number
+          product_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          new_quantity?: number
+          product_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_updates_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           created_at: string
@@ -884,27 +913,11 @@ export type Database = {
         }
         Relationships: []
       }
-      user_roles: {
-        Row: {
-          id: number
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          id?: number
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          id?: number
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
       user_tasks: {
         Row: {
           created_at: string
+          reviewed_at: string | null
+          reviewed_by: string | null
           status: Database["public"]["Enums"]["task_status"]
           task_id: number
           updated_at: string
@@ -912,6 +925,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task_id: number
           updated_at?: string
@@ -919,6 +934,8 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task_id?: number
           updated_at?: string
@@ -933,6 +950,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      users: {
+        Row: {
+          points: number
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          points?: number
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          points?: number
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {
