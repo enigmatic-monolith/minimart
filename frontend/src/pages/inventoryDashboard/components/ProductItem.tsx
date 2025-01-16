@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Product } from "../../../redux/api/productApi";
 import { ProductCard } from "./ProductCard";
-import { ProductDetailsModal } from "./ProductDetailsModal";
+import { ProductDetailsModal } from "./product_details/ProductDetailsModal";
 
 export type ProductItemProps = {
   product: Product;

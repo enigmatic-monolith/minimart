@@ -11,6 +11,7 @@ import { UserManagementPage } from '../pages/userManagement/UserManagement';
 import { SetPassword } from '../pages/setPassword/SetPassword';
 import { CartProvider } from '../pages/resident/CartContext';
 import CartPage from '../pages/resident/CartPage';
+import { Report } from '../pages/report/Report';
 
 const getUserRole = (): string => {
   const role = useSelector((state: RootState) => state.auth.role);
@@ -75,6 +76,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <UserManagementPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/report"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <Report />
           </ProtectedRoute>
         }
       />
