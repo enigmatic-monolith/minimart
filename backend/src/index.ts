@@ -4,6 +4,7 @@ import { authenticateToken, AuthRequest } from "./middleware/authentication";
 import { authorizeRole } from "./middleware/authorization";
 import productRoutes from "./routes/productRoutes";
 import taskRoutes from "./routes/taskRoutes";
+import productRequestRoutes from "./routes/productRequestRoutes";
 import userManagementRoutes from "./routes/userManagementRoutes";
 import cors from "cors";
 
@@ -25,6 +26,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/product", productRoutes);
 app.use("/task", taskRoutes);
+app.use("/product_request", productRequestRoutes);
 app.use("/users", userManagementRoutes);
 
 // For testing purposes

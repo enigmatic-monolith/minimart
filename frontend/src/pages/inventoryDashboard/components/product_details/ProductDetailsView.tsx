@@ -5,7 +5,7 @@ import {
   DialogContent,
   Box,
 } from "@mui/material";
-import { Product } from "../../../redux/api/productApi";
+import { Product } from "../../../../redux/api/productApi";
 import { ProductDetailsMode } from "./ProductDetailsModal";
 
 export type ProductDetailsViewProps = {

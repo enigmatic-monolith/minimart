@@ -14,7 +14,7 @@ import {
   useCreateProductMutation,
   useUpdateProductMutation,
   useUploadProductImageMutation,
-} from "../../../redux/api/productApi";
+} from "../../../../redux/api/productApi";
 import { ProductDetailsMode } from "./ProductDetailsModal";
 
 export type CreateProductProps = {
