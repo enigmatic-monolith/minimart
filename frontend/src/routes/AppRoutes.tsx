@@ -1,26 +1,47 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 import ProtectedRoute from './ProtectedRoute';
+import ResidentDashboard from '../pages/resident/ResidentDashboard';
+
 import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
 import { LoginPage } from '../pages/LoginPage';
-import { HomePage } from '../pages/HomePage';
 import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
 import { UserManagementPage } from '../pages/userManagement/UserManagement';
 import { SetPassword } from '../pages/setPassword/SetPassword';
+import { CartProvider } from '../pages/resident/CartContext';
+import CartPage from '../pages/resident/CartPage';
 import { Report } from '../pages/report/Report';
 
+const getUserRole = (): string => {
+  const role = useSelector((state: RootState) => state.auth.role);
+  return role || 'guest';
+}
+
 const AppRoutes = () => {
+  const userRole = getUserRole();
+  console.log("User Role: ", userRole);
+
   return (
     <Routes>
       {/* Public Route */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/set-password" element={<SetPassword />} />
 
-      {/* Protected Routes */}
+      {/* Protected Routes. Role-Based Redirect for Root */}
       <Route
         path="/"
         element={
           <ProtectedRoute allowedRoles={['admin', 'resident']}>
-            <HomePage />
+            {userRole === 'admin' ? (
+              <TasksDashboard />
+            ) : userRole === 'resident' ? (
+              <CartProvider>
+                <ResidentDashboard />
+              </CartProvider>
+            ) : (
+              <Navigate to="/login" replace />
+            )}
           </ProtectedRoute>
         }
       />
@@ -29,6 +50,16 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['admin', 'resident']}>
             <TasksDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <ProtectedRoute allowedRoles={['resident']}>
+            <CartProvider>
+              <CartPage />
+            </CartProvider>
           </ProtectedRoute>
         }
       />
@@ -58,7 +89,7 @@ const AppRoutes = () => {
       />
 
       {/* Catch-All Redirect */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
