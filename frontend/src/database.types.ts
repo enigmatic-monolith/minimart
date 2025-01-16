@@ -738,6 +738,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          id: number
+          performed_by: string
+          record_id: number
+          table_name: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: number
+          performed_by: string
+          record_id: number
+          table_name: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: number
+          performed_by?: string
+          record_id?: number
+          table_name?: string
+        }
+        Relationships: []
+      }
       banned_users: {
         Row: {
           created_at: string
