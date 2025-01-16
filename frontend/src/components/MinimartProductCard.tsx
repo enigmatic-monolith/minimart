@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MinimartProductCard.css';
 import { useCart } from '../pages/resident/CartContext';
+import CustomNotificationModal from './CustomNotificationModal';
 
 interface MinimartProductCardProps {
     id: number
@@ -25,6 +26,15 @@ const MinimartProductCard: React.FC<MinimartProductCardProps> = ({
   }) => {
   const [quantity, setQuantity] = React.useState(0);
   const { addToCart } = useCart();
+  const [ addToCartNotifOpen, setAddToCartNotifOpen ] = useState(false);
+
+  const handleNotifOpen = () => setAddToCartNotifOpen(true);
+  const handleNotifClose = () => setAddToCartNotifOpen(false);
+  const handleNotifConfirm = () => {
+    console.log('OK clicked');
+    setQuantity(0); // Reset quantity after adding to cart
+    setAddToCartNotifOpen(false);
+  };
 
   const handleAddToCart = () => {
     if (quantity > 0) {
@@ -35,8 +45,7 @@ const MinimartProductCard: React.FC<MinimartProductCardProps> = ({
         pointsRequired: pointsRequired || 0,
         quantity,
       });
-      setQuantity(0); // Reset quantity after adding to cart
-      alert(`Successfully Added ${quantity} of ${title} to cart`)
+      handleNotifOpen();
       console.log(`Added ${quantity} of ${title} to cart`);
     } else {
       console.log(`Error adding ${quantity} of ${title} to cart`);
@@ -79,6 +88,15 @@ const MinimartProductCard: React.FC<MinimartProductCardProps> = ({
           <i className="bi bi-cart-plus" />Add to Cart 
         </button>
       </div>
+
+      <CustomNotificationModal
+        open={addToCartNotifOpen}
+        title="Item Added to Cart"
+        description={`Successfully Added ${quantity} of ${title} to cart`}
+        onClose={handleNotifClose}
+        onConfirm={handleNotifConfirm}
+        confirmText="Ok"
+      />
     </div>
   );
 };
