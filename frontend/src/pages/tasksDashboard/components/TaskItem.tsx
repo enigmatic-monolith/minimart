@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Badge,
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Badge } from "@mui/material";
 import TaskDetailsModal, { ViewEditTaskProps } from "./TaskDetailsModal";
 import { TaskCard } from "./TaskCard";
 import { useSelector } from 'react-redux';

@@ -7,7 +7,12 @@ import { RootState } from '../../../redux/store';
 
 type TaskListProps = {
   tasks: TaskWithSubmissions[];
-  viewEditTaskProps: Omit<ViewEditTaskProps, 'task' | "isPending" | 'isApproved' | 'isRejected'>;
+  viewEditTaskProps: Omit<ViewEditTaskProps, 'task' | "isPending" | 'isApproved' | 'isRejected'
+  | 'refetch'>;
+}
+
+type HashMap = {
+  [key: string]: string;
 }
 
 const TaskList = ({ tasks, viewEditTaskProps }: TaskListProps) => {
@@ -18,7 +23,7 @@ const TaskList = ({ tasks, viewEditTaskProps }: TaskListProps) => {
   const hashMap = (userTasks ?? []).reduce((map, item) => {
     map[item.task_id] = item.status;
     return map;
-  }, {});
+  }, {} as HashMap);
 
   return (
     <Grid2 container spacing={2}>

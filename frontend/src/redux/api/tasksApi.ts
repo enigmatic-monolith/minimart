@@ -80,7 +80,7 @@ export const tasksApi = createApi({
         { type: "Task" },
       ],
     }),
-    getUserTasksByUserId: builder.query<UserTask, string>({
+    getUserTasksByUserId: builder.query<UserTask[], string>({
       query: (userId) => `${taskRoute}/${userId}/usertasks`,
     }),
     createUserTask: builder.mutation<UserTask, {userId: string; taskId: number}>({

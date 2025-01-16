@@ -12,7 +12,7 @@ import { ProductRequestModal } from "../product_request/ProductRequestModal";
 import { useGetAllProductRequestQuery } from "../../../../redux/api/productRequestApi";
 
 export const ProductDashboardHeader = () => {
-  const { data: productRequests = [], isLoading } =
+  const { data: productRequests = [] } =
     useGetAllProductRequestQuery();
   const [modalOpen, setModalOpen] = useState(false);
   const [openRequestModal, setOpenRequestModal] = useState(false);
