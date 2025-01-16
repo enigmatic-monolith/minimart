@@ -7,6 +7,7 @@ import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboa
 import { UserManagementPage } from '../pages/userManagement/UserManagement';
 import { SetPassword } from '../pages/setPassword/SetPassword';
 import { Report } from '../pages/report/Report';
+import LogsPage from '../pages/logging/LogsPage';
 
 const AppRoutes = () => {
   return (
@@ -14,7 +15,6 @@ const AppRoutes = () => {
       {/* Public Route */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/set-password" element={<SetPassword />} />
-
       {/* Protected Routes */}
       <Route
         path="/"
@@ -55,6 +55,14 @@ const AppRoutes = () => {
             <Report />
           </ProtectedRoute>
         }
+      />
+      <Route 
+        path="/logs" 
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <LogsPage /> 
+          </ProtectedRoute>
+        }    
       />
 
       {/* Catch-All Redirect */}
