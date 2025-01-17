@@ -7,6 +7,7 @@ import taskRoutes from "./routes/taskRoutes";
 import productRequestRoutes from "./routes/productRequestRoutes";
 import userManagementRoutes from "./routes/userManagementRoutes";
 import auditRoutes from "./routes/auditRoutes";
+import orderRoutes from "./routes/orderRoutes";
 import cors from "cors";
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use("/task", taskRoutes);
 app.use("/product_request", productRequestRoutes);
 app.use("/users", userManagementRoutes);
 app.use("/audit", auditRoutes);
+app.use("/order", orderRoutes);
 
 // For testing purposes
 app.get("/user_info", (req: AuthRequest, res: Response) => {

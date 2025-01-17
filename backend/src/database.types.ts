@@ -783,6 +783,69 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          id: number
+          order_id: number
+          price_at_purchase: number
+          product_id: number
+          quantity: number
+        }
+        Insert: {
+          id?: number
+          order_id: number
+          price_at_purchase: number
+          product_id: number
+          quantity: number
+        }
+        Update: {
+          id?: number
+          order_id?: number
+          price_at_purchase?: number
+          product_id?: number
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: number
+          status: Database["public"]["Enums"]["order_status"]
+          total_price: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          status?: Database["public"]["Enums"]["order_status"]
+          total_price: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          status?: Database["public"]["Enums"]["order_status"]
+          total_price?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       product_requests: {
         Row: {
           desc: string | null
@@ -1031,6 +1094,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "resident"
+      order_status: "pending" | "completed" | "cancelled"
       product_request_status: "pending" | "approved" | "rejected"
       task_status: "pending" | "approved" | "rejected"
     }

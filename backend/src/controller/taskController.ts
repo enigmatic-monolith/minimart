@@ -141,6 +141,25 @@ export const updateUserTaskStatus =
       return;
     }
 
+    if (status === 'approved') {
+      const { data: task } = await supabase
+        .from("tasks")
+        .select("points")
+        .eq("id", taskId)
+        .single();
+
+      const { data: user } = await supabase
+        .from("users")
+        .select("points")
+        .eq("user_id", userId)
+        .single();
+
+      await supabase
+        .from("users")
+        .update({ points: user.points + task.points })
+        .eq("user_id", userId);
+    }
+
     res.status(200).json(data);
   };
 
@@ -153,7 +172,6 @@ export const updateUserTaskStatus =
       .insert([{ user_id: userId, task_id: taskId, status: "pending" }]);
   
     if (error) {
-        console.log("Error", error.message);
       res.status(500).json({ error: error.message });
       return;
     }
