@@ -1,0 +1,151 @@
+Table auth.users {
+    id uuid [pk]
+    aud text
+    role text
+    email text
+    encrypted_password text
+    confirmation_token text
+    confirmed_at "timestamp with time zone"
+    confirmation_sent_at "timestamp with time zone"
+    recovery_token text
+    recovery_sent_at "timestamp with time zone"
+    email_change_token_new text
+    email_change text
+    email_change_sent_at "timestamp with time zone"
+    last_sign_in_at "timestamp with time zone"
+    raw_app_meta_data jsonb
+    raw_user_meta_data jsonb
+    is_super_admin boolean
+    created_at "timestamp with time zone" [default: `now()`]
+    updated_at "timestamp with time zone" [default: `now()`]
+}
+
+Table tasks {
+    id bigint [pk]
+    title text
+    points bigint
+    desc text
+    created_at "timestamp with time zone" [default: `now()`]
+    last_updated_at "timestamp with time zone" [default: `now()`]
+    created_by uuid
+    last_updated_by uuid
+    archived_at "timestamp with time zone"
+}
+
+Table user_tasks {
+    id bigint [pk]
+    user_id uuid
+    task_id bigint
+    status task_status
+    created_at "timestamp with time zone" [default: `now()`]
+    last_updated_at "timestamp with time zone" [default: `now()`]
+    reviewed_at "timestamp with time zone"
+    reviewed_by uuid
+    last_updated_by uuid
+}
+
+Table products {
+    id bigint [pk]
+    name text
+    desc text
+    created_at "timestamp with time zone" [default: `now()`]
+    image_url text
+    price bigint
+    quantity bigint
+    last_updated_at "timestamp with time zone" [default: `now()`]
+    created_by uuid
+    last_updated_by uuid
+}
+
+Table orders {
+    id bigint [pk]
+    user_id uuid
+    total_price bigint
+    status order_status
+    created_at "timestamp with time zone" [default: `now()`]
+}
+
+Table order_items {
+    id bigint [pk]
+    order_id bigint
+    product_id bigint
+    quantity bigint
+    price_at_purchase bigint
+}
+
+Table audit_logs {
+    id bigint [pk]
+    table_name text
+    record_id bigint
+    action text
+    performed_by uuid
+    created_at "timestamp with time zone" [default: `now()`]
+}
+
+Table product_requests {
+    id bigint [pk]
+    name text
+    desc text
+    status product_request_status
+    product_id bigint
+    requested_by uuid
+    requested_at "timestamp with time zone" [default: `now()`]
+    reviewed_by uuid
+    reviewed_at "timestamp with time zone"
+}
+
+Table product_updates {
+    id bigint [pk]
+    created_at "timestamp with time zone" [default: `now()`]
+    product_id bigint
+    new_quantity bigint
+}
+
+Table reset_password_tokens {
+    id bigint [pk]
+    created_at "timestamp with time zone" [default: `now()`]
+    user_id uuid
+    token text
+}
+
+Table banned_users {
+    id bigint [pk]
+    created_at "timestamp with time zone" [default: `now()`]
+    user_id uuid
+}
+
+Enum task_status {
+    pending
+    approved
+    rejected
+}
+
+Enum order_status {
+    pending
+    completed
+    cancelled
+}
+
+Enum product_request_status {
+    pending
+    approved
+    rejected
+}
+
+Ref: user_tasks.task_id > tasks.id
+Ref: user_tasks.user_id > auth.users.id
+Ref: user_tasks.reviewed_by > auth.users.id
+Ref: user_tasks.last_updated_by > auth.users.id
+Ref: tasks.created_by > auth.users.id
+Ref: tasks.last_updated_by > auth.users.id
+Ref: products.created_by > auth.users.id
+Ref: products.last_updated_by > auth.users.id
+Ref: order_items.order_id > orders.id
+Ref: order_items.product_id > products.id
+Ref: orders.user_id > auth.users.id
+Ref: audit_logs.performed_by > auth.users.id
+Ref: product_requests.product_id > products.id
+Ref: product_requests.requested_by > auth.users.id
+Ref: product_requests.reviewed_by > auth.users.id
+Ref: product_updates.product_id > products.id
+Ref: reset_password_tokens.user_id > auth.users.id
