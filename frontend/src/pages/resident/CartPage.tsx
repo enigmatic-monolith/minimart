@@ -8,7 +8,7 @@ import { useGetUserByIdQuery } from '../../redux/api/userApi';
 import { usePlaceOrderMutation } from '../../redux/api/orderApi';
 
 const CartPage: React.FC = () => {
-  const { cart, getSubtotal, applyDiscount, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { cart, getSubtotal, getDiscountPercentage, applyDiscount, updateQuantity, removeFromCart, clearCart } = useCart();
   const [discountCode, setDiscountCode] = useState('');
   const [discountValue, setDiscountValue] = useState(0);
   const [discountedSubtotal, setDiscountedSubtotal] = useState<number | null>(null);
@@ -35,9 +35,10 @@ const CartPage: React.FC = () => {
   : false
 
   const handleSendOrder = async () => {
+    const discount = getDiscountPercentage(discountCode);
     const orderItems = cart.map((item) => ({
       product_id: item.id,
-      price_at_purchase: item.pointsRequired,
+      price_at_purchase: (item.pointsRequired*((100 - discount) / 100)),
       quantity: item.quantity
     }));
 
@@ -45,6 +46,7 @@ const CartPage: React.FC = () => {
       await placeOrder(orderItems).unwrap();
       alert('Order Placed Successfully');
       clearCart();
+      setDiscountValue(0);
     } catch (err) {
       console.error('Failed to place order:', err);
       alert(`Error: ${err} || Failed to Place Order.`)

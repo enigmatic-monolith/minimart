@@ -944,7 +944,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
-          category: string
+          category?: string
         }
         Update: {
           created_at?: string

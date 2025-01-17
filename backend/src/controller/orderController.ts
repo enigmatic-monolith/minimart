@@ -30,9 +30,9 @@ export const placeOrder = async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    const totalPrice = orderItems.reduce((total, item) => {
+    const totalPrice = Math.round(orderItems.reduce((total, item) => {
       return total + item.price_at_purchase * item.quantity;
-    }, 0);
+    }, 0));
 
     if (totalPrice > user.points) {
       res.status(400).json({ message: "Insufficient points." });
