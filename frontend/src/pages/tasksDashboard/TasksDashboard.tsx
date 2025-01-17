@@ -41,7 +41,7 @@ export const TasksDashboard = () => {
           backgroundColor: "#3E5879",
           borderRadius: 2,
           boxShadow: 3,
-          height: "80vh",
+          height: '85vh',
           overflowY: "auto",
         }}
       >

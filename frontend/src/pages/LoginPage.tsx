@@ -10,7 +10,7 @@ import { Alert, AlertTitle } from "@mui/material";
 
 type JwtPayload = {
   user_role: string;
-}
+};
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -19,35 +19,51 @@ export const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const queryParams = new URLSearchParams(location.search);
-  const redirectTo = queryParams.get('redirectTo') || '/';
+  const redirectTo = queryParams.get("redirectTo") || "/";
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        const { access_token, user } = session;
-        const jwt = jwtDecode<JwtPayload>(access_token);
-        fetch(`${import.meta.env.VITE_API_BASE_URL}/user_info`, {
-          headers: {
-            'Authorization': `Bearer ${access_token}`
-          }
-        })
-          .then((res) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_IN" && session) {
+          const { access_token, user } = session;
+          const jwt = jwtDecode<JwtPayload>(access_token);
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/user_info`, {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }).then((res) => {
             if (res.status === 403) {
               setError("User is banned");
             } else {
-              dispatch(setAuth({ accessToken: access_token, role: jwt.user_role as AppRole, user }));
-              navigate(redirectTo);  
+              dispatch(
+                setAuth({
+                  accessToken: access_token,
+                  role: jwt.user_role as AppRole,
+                  user,
+                })
+              );
+              navigate(redirectTo);
             }
           });
+        }
       }
-    });
+    );
     return () => {
       authListener.subscription.unsubscribe();
     };
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100vw",
+        height: "100vh",
+        margin: 0,
+      }}
+    >
       <Auth
         supabaseClient={supabase}
         appearance={{
@@ -65,4 +81,4 @@ export const LoginPage = () => {
       )}
     </div>
   );
-}
+};

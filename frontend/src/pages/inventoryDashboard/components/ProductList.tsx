@@ -15,7 +15,7 @@ export const ProductList = ({ products }: ProductListProps) => {
   return (
     <Grid2 container spacing={4}>
       {sortedById.map((product) => (
-        <Grid2 key={product.id} size={{ xs: 12, sm: 6, md: 4}}>
+        <Grid2 key={product.id} size={{ xs: 12, sm: 6, md: 3}}>
           <ProductItem product={product} />
         </Grid2>
       ))}
