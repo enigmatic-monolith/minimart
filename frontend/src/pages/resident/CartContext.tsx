@@ -13,6 +13,7 @@ interface CartContextProps {
   addToCart: (item: CartItem) => void;
   updateQuantity: (id: number, quantity: number) => void;
   removeFromCart: (id: number) => void;
+  clearCart: () => void;
   getSubtotal: () => number;
   applyDiscount: (discountCode: string) => number | null; // Returns updated subtotal or null if invalid
 }
@@ -47,6 +48,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart((prev) => prev.filter((cartItem) => cartItem.id !== id));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  }
+
   const getSubtotal = () => {
     return cart.reduce((subtotal, item) => subtotal + item.pointsRequired * item.quantity, 0);
   };
@@ -75,7 +80,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, getSubtotal, applyDiscount }}>
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart, getSubtotal, applyDiscount }}>
       {children}
     </CartContext.Provider>
   );
