@@ -101,10 +101,14 @@ INSERT INTO
             auth.users
     );
 
--- Assign roles for test user
-INSERT INTO public.users (user_id, role, username)
-VALUES
-  ('d247f785-882d-4cef-baff-5457e9a6a359', 'admin', 'Admin 1'),
-  ('5ae1fa78-ae05-4817-a87c-c1d85cbb00d5', 'resident', 'Resident 1'),
-  ('3a6b6a62-cfd9-4587-a871-96760e9a976f', 'resident', 'Resident 2');
+UPDATE public.users
+SET role = 'admin', username = 'Admin 1'
+WHERE user_id = 'd247f785-882d-4cef-baff-5457e9a6a359';
 
+UPDATE public.users
+SET role = 'resident', username = 'Resident 1', points = 100
+WHERE user_id = '5ae1fa78-ae05-4817-a87c-c1d85cbb00d5';
+
+UPDATE public.users
+SET role = 'resident', username = 'Resident 2', points = 100
+WHERE user_id = '3a6b6a62-cfd9-4587-a871-96760e9a976f';
