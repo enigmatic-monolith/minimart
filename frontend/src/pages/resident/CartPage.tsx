@@ -28,8 +28,8 @@ const CartPage: React.FC = () => {
         <div style={{ padding: '20px' }}>
         <Typography variant="h4">Your Cart</Typography>
 
-        {cart.map((item) => (
-            <div key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+          {cart.map((item) => (
+            <div key={item.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '15px' }}>
             <img src={item.image_url} alt={item.title} style={{ width: '100px', height: '100px', marginRight: '10px' }} />
             <div style={{ display:"flex", flexDirection:'column', alignItems: 'flex-start', paddingRight: '15px' }}>
                 <Typography variant="body1">{item.title}</Typography>
