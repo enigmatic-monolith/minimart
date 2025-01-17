@@ -15,7 +15,16 @@ type FilterModalProps = {
 const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) => {
   const [localFilters, setLocalFilters] = React.useState(filters);
   const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(10000);
+  const [maxValue, setMaxValue] = useState(1000);
+  const categories = [
+    'Stationery',
+    'Paper Products',
+    'Toys',
+    'Food',
+    'Drink',
+    'Condiments',
+    'Cooking',
+  ]
 
   const handleCategoryChange = (category: string) => {
     setLocalFilters((prev) => ({
@@ -52,7 +61,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) =
         {/* Category Filter */}
         <div>
           <h4>Category</h4>
-          {['Stationery', 'Paper Products', 'Toys'].map((category) => (
+          {categories.map((category) => (
             <label key={category}>
               <input
                 type="checkbox"
@@ -82,8 +91,8 @@ const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) =
             id='min-input'
             type="range"
             min="0"
-            max="10000"
-            step="50"
+            max="1000"
+            step="5"
             value={minValue}
             onChange={(e) => handleMinChange(Number(e.target.value))}
           />
@@ -91,8 +100,8 @@ const FilterModal: React.FC<FilterModalProps> = ({ filters, onClose, onSave }) =
             id='max-input'
             type="range"
             min="0"
-            max="10000"
-            step="50"
+            max="1000"
+            step="5"
             value={maxValue}
             onChange={(e) => handleMaxChange(Number(e.target.value))}
           />

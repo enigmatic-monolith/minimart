@@ -13,7 +13,9 @@ interface CartContextProps {
   addToCart: (item: CartItem) => void;
   updateQuantity: (id: number, quantity: number) => void;
   removeFromCart: (id: number) => void;
+  clearCart: () => void;
   getSubtotal: () => number;
+  getDiscountPercentage: (discountCode: string) => number;
   applyDiscount: (discountCode: string) => number | null; // Returns updated subtotal or null if invalid
 }
 
@@ -47,23 +49,36 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart((prev) => prev.filter((cartItem) => cartItem.id !== id));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  }
+
   const getSubtotal = () => {
     return cart.reduce((subtotal, item) => subtotal + item.pointsRequired * item.quantity, 0);
   };
 
-  const applyDiscount = (discountCode: string) => {
-    // Example discount codes
-    const validDiscounts: Record<string, number> = {
-      "": 0,
-      "SAVE1": 1, // 20% discount
-      "SAVE5": 5, // 5% discount
-      "SAVE10": 10, // 10% discount
-      "SAVE20": 20, // 20% discount
-      "SAVE30": 30, // 30% discount
-      "SAVE50": 50, // 50% discount
-      "SAVE75": 75, // 75% discount
-    };
+  // Example discount codes
+  const validDiscounts: Record<string, number> = {
+    "": 0,
+    "SAVE1": 1, // 20% discount
+    "SAVE5": 5, // 5% discount
+    "SAVE10": 10, // 10% discount
+    "SAVE20": 20, // 20% discount
+    "SAVE30": 30, // 30% discount
+    "SAVE50": 50, // 50% discount
+    "SAVE75": 75, // 75% discount
+  };
 
+  const getDiscountPercentage = (discountCode: string) => {
+    const discountValue = validDiscounts[discountCode];
+    if (discountValue !== undefined) {
+      return discountValue
+    } else {
+      return 0; // Invalid discount code also returns 0
+    }
+  }
+
+  const applyDiscount = (discountCode: string) => {
     const discountValue = validDiscounts[discountCode];
     if (discountValue !== undefined) {
       setDiscount(discountValue);
@@ -75,7 +90,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, getSubtotal, applyDiscount }}>
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart, getSubtotal, getDiscountPercentage, applyDiscount }}>
       {children}
     </CartContext.Provider>
   );
