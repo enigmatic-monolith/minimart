@@ -121,7 +121,8 @@ export const createProduct = async (req: AuthRequest, res: Response) => {
       quantity,
       price,
       image_url,
-    },
+      created_by: req.user.sub
+    } as ProductCreate,
   ])
     .select();
 

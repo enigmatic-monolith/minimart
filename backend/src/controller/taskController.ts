@@ -1,9 +1,10 @@
 import { Response } from "express";
 import { supabaseClient } from "../services/supabaseClient";
 import { AuthRequest } from "../middleware/authentication";
-import { Enums, Tables, TablesUpdate } from "../database.types";
+import { Enums, Tables, TablesInsert, TablesUpdate } from "../database.types";
 
 export type Task = Tables<"tasks">;
+export type TaskCreate = TablesInsert<"tasks">;
 export type TaskUpdate = TablesUpdate<"tasks">;
 export type UserTask = Tables<"user_tasks">;
 
@@ -59,7 +60,7 @@ export const createTask = async (req: AuthRequest, res: Response) => {
 
   const { data, error } = await supabase
     .from("tasks")
-    .insert([{ title, desc, points }]);
+    .insert([{ title, desc, points, created_by: req.user.sub } as TaskCreate]);
 
   if (error) {
     res.status(500).json({ error: error.message });
@@ -77,7 +78,7 @@ export const updateTask = async (req: AuthRequest, res: Response) => {
 
   const { data, error } = await supabase
     .from("tasks")
-    .update({ title, desc, points })
+    .update({ title, desc, points, last_updated_by: req.user.sub } as TaskUpdate)
     .eq("id", id);
 
   if (error) {
@@ -95,7 +96,7 @@ export const archiveTask = async (req: AuthRequest, res: Response) => {
 
   const { data, error } = await supabase
     .from("tasks")
-    .update({ archived_at: new Date().toISOString() } as TaskUpdate)
+    .update({ archived_at: new Date().toISOString(), last_updated_by: req.user.sub } as TaskUpdate)
     .eq("id", id);
 
   if (error) {
@@ -113,7 +114,7 @@ export const restoreTask = async (req: AuthRequest, res: Response) => {
 
   const { data, error } = await supabase
     .from("tasks")
-    .update({ archived_at: null })
+    .update({ archived_at: null, last_updated_by: req.user.sub  } as TaskUpdate)
     .eq("id", id);
 
   if (error) {
