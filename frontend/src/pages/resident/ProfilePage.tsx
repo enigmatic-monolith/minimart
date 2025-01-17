@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Typography, Card, CardContent, Grid, Avatar, Divider, IconButton } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -12,14 +12,6 @@ const maskString = (str: string, visibleCount: number = 12): string => {
   const maskedPart = '*'.repeat(str.length - visibleCount);
   const visiblePart = str.slice(-visibleCount);
   return maskedPart + visiblePart;
-};
-
-type UserProfile = {
-  id: string;
-  username: string;
-  email: string;
-  voucher_points: number;
-  created_at: string;
 };
 
 const ProfilePage: React.FC = () => {
@@ -39,7 +31,6 @@ const ProfilePage: React.FC = () => {
     <Box
       display="flex"
       justifyContent="center"
-      // alignItems="center"
       minHeight="50vh"
       bgcolor="background.default"
       p={3}
@@ -63,7 +54,13 @@ const ProfilePage: React.FC = () => {
               <Typography variant="body2" color="text.secondary">
                 <strong>User ID:</strong>
               </Typography>
-              <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
+              <Box display="flex" alignItems="center" justifyContent="center"
+                sx={{
+                  flexWrap: "wrap",
+                  maxWidth: "100%", 
+                  wordBreak: "break-word", 
+                  overflow: "hidden", 
+                }}>
                 <Typography variant="body1">
                   {isMasked ? maskString(userData?.user_id || "Loading...") : (userData?.user_id || "Loading...")}
                 </Typography>
