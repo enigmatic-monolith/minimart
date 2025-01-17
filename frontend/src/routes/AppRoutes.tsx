@@ -12,7 +12,7 @@ import { SetPassword } from '../pages/setPassword/SetPassword';
 import { CartProvider } from '../pages/resident/CartContext';
 import CartPage from '../pages/resident/CartPage';
 import { Report } from '../pages/report/Report';
-import LogsPage from '../pages/logging/LogsPage';
+import AuditPage from '../pages/logging/AuditPage';
 
 const getUserRole = (): string => {
   const role = useSelector((state: RootState) => state.auth.role);
@@ -88,10 +88,10 @@ const AppRoutes = () => {
         }
       />
       <Route 
-        path="/logs" 
+        path="/audit" 
         element={
           <ProtectedRoute allowedRoles={['admin']}>
-            <LogsPage /> 
+            <AuditPage /> 
           </ProtectedRoute>
         }    
       />

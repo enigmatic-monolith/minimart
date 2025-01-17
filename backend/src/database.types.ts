@@ -957,6 +957,7 @@ export type Database = {
           created_at: string
           id: number
           last_updated_at: string
+          last_updated_by: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["task_status"]
@@ -967,6 +968,7 @@ export type Database = {
           created_at?: string
           id?: number
           last_updated_at?: string
+          last_updated_by?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
@@ -977,6 +979,7 @@ export type Database = {
           created_at?: string
           id?: number
           last_updated_at?: string
+          last_updated_by?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["task_status"]
