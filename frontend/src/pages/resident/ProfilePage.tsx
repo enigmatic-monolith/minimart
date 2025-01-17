@@ -3,6 +3,7 @@ import { Box, Typography, Card, CardContent, Grid, Avatar, Divider } from "@mui/
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useGetUserByIdQuery } from '../../redux/api/userApi';
+import NavBar from "../../components/NavBar";
 
 type UserProfile = {
   id: string;
@@ -22,11 +23,13 @@ const ProfilePage: React.FC = () => {
 
 
   return (
+    <>
+    <NavBar position="top" active='cart'/>
     <Box
       display="flex"
       justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
+      // alignItems="center"
+      minHeight="50vh"
       bgcolor="background.default"
       p={3}
     >
@@ -80,6 +83,7 @@ const ProfilePage: React.FC = () => {
         </CardContent>
       </Card>
     </Box>
+    </>
   );
 };
 
