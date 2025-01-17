@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Card, CardContent, Grid, Avatar, Divider } from "@mui/material";
+import { Box, Typography, Card, CardContent, Grid, Avatar, Divider, IconButton } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useGetUserByIdQuery } from '../../redux/api/userApi';
 import NavBar from "../../components/NavBar";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+const maskString = (str: string, visibleCount: number = 12): string => {
+  if (str.length <= visibleCount) return str;
+  const maskedPart = '*'.repeat(str.length - visibleCount);
+  const visiblePart = str.slice(-visibleCount);
+  return maskedPart + visiblePart;
+};
 
 type UserProfile = {
   id: string;
@@ -15,12 +24,14 @@ type UserProfile = {
 
 const ProfilePage: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-    const { data: userData } = useGetUserByIdQuery(user?.id!, {
-      skip: !user?.id,
-    });
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const { data: userData } = useGetUserByIdQuery(user?.id!, {
+    skip: !user?.id,
+  });
+  const [isMasked, setIsMasked] = useState(true);
 
-
+  const toggleMask = () => {
+    setIsMasked((prev) => !prev);
+  };
 
   return (
     <>
@@ -33,7 +44,7 @@ const ProfilePage: React.FC = () => {
       bgcolor="background.default"
       p={3}
     >
-      <Card sx={{ width: 400, p: 3, boxShadow: 3 }}>
+      <Card sx={{ width: 500, p: 3, boxShadow: 3 }}>
         <CardContent>
           <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
             <Avatar
@@ -52,14 +63,21 @@ const ProfilePage: React.FC = () => {
               <Typography variant="body2" color="text.secondary">
                 <strong>User ID:</strong>
               </Typography>
-              <Typography variant="body1">{userData?.user_id || "Loading..."}</Typography>
+              <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
+                <Typography variant="body1">
+                  {isMasked ? maskString(userData?.user_id || "Loading...") : (userData?.user_id || "Loading...")}
+                </Typography>
+                <IconButton size="small" onClick={toggleMask}>
+                  {isMasked ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </Box>
             </Grid>
 
             <Grid item xs={12}>
               <Typography variant="body2" color="text.secondary">
                 <strong>Email:</strong>
               </Typography>
-              <Typography variant="body1">{userData?.role || "Loading..."}</Typography>
+              <Typography variant="body1">{user?.email || "Loading..."}</Typography>
             </Grid>
 
             <Grid item xs={12}>
@@ -74,8 +92,12 @@ const ProfilePage: React.FC = () => {
                 <strong>Account Creation Date:</strong>
               </Typography>
               <Typography variant="body1">
-                {profile?.created_at
-                  ? new Date(profile.created_at).toLocaleDateString()
+                {user?.created_at
+                  ? new Intl.DateTimeFormat('en-US', {
+                    dateStyle: 'full',
+                    timeStyle: 'short',
+                    timeZone: 'Singapore',
+                  }).format(new Date(user?.created_at)).concat(" (GMT+8)")
                   : "Loading..."}
               </Typography>
             </Grid>
