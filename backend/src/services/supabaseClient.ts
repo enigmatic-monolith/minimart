@@ -6,7 +6,7 @@ dotenv.config();
 const supabaseUrl = process.env.SUPABASE_URL as string;
 
 export const supabaseClient = (accessToken: string) => {
-  return createClient(supabaseUrl, accessToken);
+  return createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY as string);
 };
 
 export const supabaseAuthClient = () => {
