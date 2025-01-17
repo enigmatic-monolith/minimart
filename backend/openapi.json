@@ -5,12 +5,6 @@
     "version": "1.0.0",
     "description": "API documentation for the Minimart backend server"
   },
-  "servers": [
-    {
-      "url": "http://localhost:3000",
-      "description": "Local development server"
-    }
-  ],
   "components": {
     "securitySchemes": {
       "bearerAuth": {
