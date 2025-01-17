@@ -9,11 +9,15 @@ import userManagementRoutes from "./routes/userManagementRoutes";
 import auditRoutes from "./routes/auditRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import cors from "cors";
+import fs from "fs";
+import swaggerUi from "swagger-ui-express";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+
+const openApiDocumentation = JSON.parse(fs.readFileSync("./openapi.json", 'utf-8'));
 
 app.use(cors({
   origin: process.env.ORIGIN as string,
@@ -41,6 +45,8 @@ app.get("/user_info", (req: AuthRequest, res: Response) => {
 app.get("/admin_only", authorizeRole(['admin']), (req: AuthRequest, res: Response) => {
   res.send("Logged in as Admin");
 })
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
