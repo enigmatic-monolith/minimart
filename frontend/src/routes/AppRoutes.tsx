@@ -4,16 +4,18 @@ import { RootState } from "../redux/store";
 import ProtectedRoute from "./ProtectedRoute";
 import ResidentDashboard from "../pages/resident/ResidentDashboard";
 
-import { TasksDashboard } from "../pages/tasksDashboard/TasksDashboard";
-import { LoginPage } from "../pages/LoginPage";
-import { InventoryDashboard } from "../pages/inventoryDashboard/InventoryDashboard";
-import { UserManagementPage } from "../pages/userManagement/UserManagement";
-import { SetPassword } from "../pages/setPassword/SetPassword";
-import { CartProvider } from "../pages/resident/CartContext";
-import CartPage from "../pages/resident/CartPage";
-import { Report } from "../pages/report/Report";
-import AuditPage from "../pages/logging/AuditPage";
+import { TasksDashboard } from '../pages/tasksDashboard/TasksDashboard';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryDashboard } from '../pages/inventoryDashboard/InventoryDashboard';
+import { UserManagementPage } from '../pages/userManagement/UserManagement';
+import { SetPassword } from '../pages/setPassword/SetPassword';
+import { CartProvider } from '../pages/resident/CartContext';
+import CartPage from '../pages/resident/CartPage';
+import ProfilePage from '../pages/resident/ProfilePage';
+import { Report } from '../pages/report/Report';
+import AuditPage from '../pages/logging/AuditPage';
 import Layout from "../pages/Layout";
+
 
 const getUserRole = (): string => {
   const role = useSelector((state: RootState) => state.auth.role);
@@ -62,6 +64,14 @@ const AppRoutes = () => {
               <CartProvider>
                 <CartPage />
               </CartProvider>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={['resident']}>
+              <ProfilePage />
             </ProtectedRoute>
           }
         />
