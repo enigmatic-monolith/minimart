@@ -1,5 +1,7 @@
 # minimart
 
+Prototype: [https://minimart.nknguyenhc.net](https://minimart.nknguyenhc.net)
+
 ## Overall architecture
 
 ![Architecture](./architecture.png)
