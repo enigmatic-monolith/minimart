@@ -2,6 +2,25 @@
 
 Prototype: [https://minimart.nknguyenhc.net](https://minimart.nknguyenhc.net)
 
+## What it does
+
+Minimart is a web-based voucher system that enables residents to streamline their process.
+
+* Residents can track their task completion, earn voucher points, and request products.
+* Admins can manage users, audit logs, and approve task activities.
+
+## How we built it
+
+The project is divided into three main components: frontend, backend, and database. The frontend is developed using React and MUI components, with Vite as the development server. The backend is built with ExpressJS and is Dockerized for easy deployment on Google Cloud Run. Supabase provides the PostgreSQL database for data persistence. The architecture is designed to ensure each component can be developed and deployed independently.
+
+## Accomplishments that we're proud of
+
+We are proud of successfully deploying a fully functional voucher & product system with a modern tech stack. The use of Docker and Google Cloud Run for the backend deployment was a significant achievement, as it allowed us to ensure scalability and reliability. The integration of Supabase for database management also streamlined our development process.
+
+## What's next for Minimart
+
+Moving forward, we plan to enhance Minimart by adding more features such as advanced search capabilities, personalized recommendations, and improved analytics. We also aim to optimize the platform for better performance and scalability, ensuring it can handle increased traffic and user demands.
+
 ## Overall architecture
 
 ![Architecture](./architecture.png)
