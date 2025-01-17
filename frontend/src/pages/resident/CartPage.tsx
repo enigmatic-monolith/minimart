@@ -126,7 +126,7 @@ const CartPage: React.FC = () => {
 
           {isError && (
             <Typography variant="body2" color="red" style={{ marginTop: '10px' }}>
-              Failed to place order: 'An error occurred'
+              {`Failed to place order: ${error || 'An Error occured'}`}
             </Typography>
           )}
           {isSuccess && (
