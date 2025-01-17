@@ -931,6 +931,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
+          category: string
         }
         Insert: {
           created_at?: string
@@ -943,6 +944,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
+          category: string
         }
         Update: {
           created_at?: string
@@ -955,6 +957,7 @@ export type Database = {
           name?: string
           price?: number
           quantity?: number
+          category?: string
         }
         Relationships: []
       }
