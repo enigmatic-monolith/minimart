@@ -11,6 +11,7 @@ import { UserManagementPage } from '../pages/userManagement/UserManagement';
 import { SetPassword } from '../pages/setPassword/SetPassword';
 import { CartProvider } from '../pages/resident/CartContext';
 import CartPage from '../pages/resident/CartPage';
+import ProfilePage from '../pages/resident/ProfilePage';
 import { Report } from '../pages/report/Report';
 import AuditPage from '../pages/logging/AuditPage';
 
@@ -60,6 +61,14 @@ const AppRoutes = () => {
             <CartProvider>
               <CartPage />
             </CartProvider>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute allowedRoles={['resident']}>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />
